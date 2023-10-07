@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="EnterpriseDAO">
+
+    <select id="selectEnterpriseList" resultType="EnterpriseDTO" parameterType="EnterpriseDTO">
+        SELECT E.ENTP_UNQ
+        , E.ENTP_TP
+        , E.ENTP_NM
+        , E.SVC_TP
+        , E.STT_MONTH_CNT
+        , E.STT_DAY_CNT
+        , E.REG_DTM
+        , (SELECT DISTINCT 'true'
+        FROM TBL_ENTP_ATCH_LST F
+        WHERE F.ENTP_UNQ = E.ENTP_UNQ
+        ) AS ATCH_FILE_BOOL
+        FROM STT_ENTP_LST E
+        WHERE 1=1
+        <if test="svc_tp != null and svc_tp != ''">
+            AND E.SVC_TP = #{svc_tp}
+        </if>
+        <if test="entp_tp != null and entp_tp != ''">
+            AND E.ENTP_TP = #{entp_tp}
+        </if>
+        <if test="entp_nm != null and entp_nm != ''">
+            AND E.ENTP_NM LIKE CONCAT('%', #{entp_nm}, '%')
+        </if>
+    </select>
+
+    <select id="selectEnterprise" resultType="EnterpriseDTO" parameterType="EnterpriseDTO">
+        SELECT E.ENTP_UNQ
+             , E.ENTP_TP
+             , E.ENTP_NM
+             , E.SVC_TP
+             , E.GNR_MEMO
+             , E.STT_MONTH_CNT
+             , E.STT_DAY_CNT
+             , E.REG_DTM
+        FROM   STT_ENTP_LST E
+        WHERE  1=1
+          AND E.ENTP_UNQ = #{entp_unq}
+    </select>
+
+    <select id="getEnterpriseCustListInfo" resultType="EnterpriseCustDTO" parameterType="EnterpriseDTO">
+        SELECT
+            *
+        FROM
+            STT_CUST_LST
+        WHERE 1=1
+          AND ENTP_UNQ = #{entp_unq}
+    </select>
+
+    <select id="getEnterpriseSvcListInfo" resultType="EnterpriseSvcDTO" parameterType="EnterpriseDTO">
+        SELECT
+            *
+        FROM
+            STT_ENTP_SVR_LST
+        WHERE 1=1
+          AND ENTP_UNQ = #{entp_unq}
+    </select>
+
+    <select id="getEnterpriseAtchList" resultType="EnterpriseAtchDTO">
+        SELECT
+            *
+        FROM
+            TBL_ENTP_ATCH_LST
+        WHERE 1=1
+          AND ENTP_UNQ = #{entp_unq}
+          AND DEL_YN = 'N'
+    </select>
+
+    <insert id="insertEnterpriseInfo" parameterType="EnterpriseDTO" useGeneratedKeys="true" keyProperty="entp_unq">
+        INSERT INTO STT_ENTP_LST(
+            ENTP_TP,
+            ENTP_NM,
+            SVC_TP,
+            STT_MONTH_CNT,
+            STT_DAY_CNT,
+            GNR_MEMO,
+            REG_USR_ID,
+            REG_DTM,
+            CHG_USR_ID,
+            CHG_DTM,
+            DEL_YN
+        )
+        VALUES(
+                  #{entp_tp},
+                  #{entp_nm},
+                  #{svc_tp},
+                  #{stt_month_cnt},
+                  #{stt_day_cnt},
+                  #{gnr_memo},
+                  #{reg_usr_id},
+                  now(),
+                  #{chg_usr_id},
+                  now(),
+                  'N'
+              )
+    </insert>
+
+    <insert id="insertCustInfo" parameterType="EnterpriseCustDTO" useGeneratedKeys="true" keyProperty="cust_unq">
+        INSERT INTO STT_CUST_LST(
+            ENTP_UNQ,
+            ENTP_TP,
+            MEMB_DEPT_NM,
+            MEMB_NM,
+            MEMB_PST_NM,
+            MEMB_TEL,
+            MEMB_EMAIL,
+            REG_USR_ID,
+            REG_DTM,
+            CHG_USR_ID,
+            CHG_DTM,
+            PRINCIPAL_TP
+        )
+        VALUES(
+                  #{entp_unq},
+                  #{entp_tp},
+                  #{memb_dept_nm},
+                  #{memb_nm},
+                  #{memb_pst_nm},
+                  #{memb_tel},
+                  #{memb_email},
+                  #{reg_usr_id},
+                  now(),
+                  #{chg_usr_id},
+                  null,
+                  #{principal_tp}
+              )
+    </insert>
+
+    <insert id="insertEnterpriseAtchInfo" parameterType="EnterpriseAtchDTO" useGeneratedKeys="true" keyProperty="atch_file_unq">
+        INSERT INTO TBL_ENTP_ATCH_LST(
+            ENTP_UNQ,
+            ATCH_FILE_NM,
+            ATCH_FILE_ORG_NM,
+            ATCH_FILE_PATH,
+            ATCH_FILE_SIZE,
+            GNR_MEMO,
+            REG_USR_ID,
+            REG_DTM,
+            CHG_USR_ID,
+            CHG_DTM,
+            DEL_YN
+        )
+        VALUES (
+                   #{entp_unq},
+                   #{atch_file_nm},
+                   #{atch_file_org_nm},
+                   #{atch_file_path},
+                   #{atch_file_size},
+                   #{gnr_memo},
+                   #{reg_usr_id},
+                   now(),
+                   #{chg_usr_id},
+                   now(),
+                   'N'
+               )
+    </insert>
+
+    <insert id="insertEnterpriseSvcInfo" parameterType="EnterpriseSvcDTO">
+        INSERT INTO STT_ENTP_SVR_LST(
+            ENTP_UNQ,
+            SVR_HST,
+            SVR_IP,
+            SVR_CONT,
+            USE_FLAG,
+            RESC_USE_FLAG,
+            TRN_USE_FLAG,
+            OS_VERS,
+            KERN_VERS,
+            CPU_CNT,
+            TOTAL_MEM_SZ,
+            USED_MEM_SZ,
+            GPU_MODEL,
+            TOTAL_DISK_SZ,
+            USED_DISK_SZ,
+            BASE_PATH,
+            LOG_PATH,
+            GNR_MEMO,
+            REG_USR_ID,
+            REG_DTM
+        )
+            VALUE(
+            #{entp_unq},
+            #{svr_hst},
+            #{svr_ip},
+            #{svr_cont},
+            #{use_flag},
+            #{resc_use_flag},
+            #{trn_use_flag},
+            #{os_vers},
+            #{kern_vers},
+            #{cpu_cnt},
+            #{total_mem_sz},
+            #{used_mem_sz},
+            #{gpu_model},
+            #{total_disk_sz},
+            #{used_disk_sz},
+            #{base_path},
+            #{log_path},
+            #{gnr_memo},
+            null,
+            now()
+            )
+    </insert>
+
+    <update id="updateEnterpriseinfo" parameterType="EnterpriseDTO">
+        UPDATE STT_ENTP_LST
+        SET
+             ENTP_TP       = #{entp_tp}
+            ,ENTP_NM       = #{entp_nm}
+            ,SVC_TP        = #{svc_tp}
+            ,STT_MONTH_CNT = #{stt_month_cnt}
+            ,STT_DAY_CNT   = #{stt_day_cnt}
+            ,GNR_MEMO      = #{gnr_memo}
+            ,CHG_USR_ID    = #{chg_usr_id}
+            ,CHG_DTM       = now()
+        WHERE
+            ENTP_UNQ = #{entp_unq}
+    </update>
+
+    <update id="updateCustInfo" parameterType="EnterpriseCustDTO">
+        UPDATE STT_CUST_LST
+        SET
+             MEMB_DEPT_NM = #{memb_dept_nm}
+            ,MEMB_NM      = #{memb_nm}
+            ,MEMB_PST_NM  = #{memb_pst_nm}
+            ,MEMB_TEL     = #{memb_tel}
+            ,MEMB_EMAIL   = #{memb_email}
+            ,CHG_USR_ID   = #{chg_usr_id}
+            ,CHG_DTM      = now()
+        WHERE
+            CUST_UNQ = #{cust_unq}
+    </update>
+
+    <update id="deleteEnterpriseAtchInfo" parameterType="EnterpriseAtchDTO">
+        UPDATE TBL_ENTP_ATCH_LST
+        SET
+             DEL_YN = "Y"
+            ,CHG_USR_ID = #{chg_usr_id}
+            ,CHG_DTM    = now()
+        WHERE
+            ATCH_FILE_UNQ = #{atch_file_unq}
+
+    </update>
+
+    <update id="updateSvcInfo" parameterType="EnterpriseSvcDTO">
+        UPDATE STT_ENTP_SVR_LST
+        SET
+             SVR_HST       = #{svr_hst}
+            ,SVR_IP        = #{svr_ip}
+            ,SVR_CONT      = #{svr_cont}
+            ,USE_FLAG      = #{use_flag}
+            ,RESC_USE_FLAG = #{resc_use_flag}
+            ,TRN_USE_FLAG  = #{trn_use_flag}
+            ,OS_VERS       = #{os_vers}
+            ,KERN_VERS     = #{kern_vers}
+            ,CPU_CNT       = #{cpu_cnt}
+            ,TOTAL_MEM_SZ  = #{total_mem_sz}
+            ,USED_MEM_SZ   = #{used_mem_sz}
+            ,GPU_MODEL     = #{gpu_model}
+            ,TOTAL_DISK_SZ = #{total_disk_sz}
+            ,USED_DISK_SZ  = #{used_disk_sz}
+            ,BASE_PATH     = #{base_path}
+            ,LOG_PATH      = #{log_path}
+            ,GNR_MEMO      = #{gnr_memo}
+            ,REG_USR_ID    = #{reg_usr_id}
+            ,REG_DTM       = #{reg_dtm}
+        WHERE
+            ENTP_UNQ = #{entp_unq}
+    </update>
+
+</mapper>

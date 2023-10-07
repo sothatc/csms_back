@@ -1,0 +1,86 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.2'
+	id 'io.spring.dependency-management' version '1.1.2'
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id 'war'
+
+}
+
+apply plugin: 'war'
+
+bootWar {
+	archiveBaseName = "CSMS"
+	archiveFileName = "CSMS.war"
+	archiveVersion	= "1.0.0"
+}
+
+group = 'CSMS'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('snippetsDir', file("build/generated-snippets"))
+	set('springCloudVersion', "2022.0.3")
+}
+
+dependencies {
+	implementation group: 'joda-time', name: 'joda-time', version: '2.12.5'
+	implementation 'com.zaxxer:HikariCP:5.0.1'
+	implementation 'org.json:json:20230618'
+	implementation 'com.google.code.gson:gson:2.10.1'
+	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.2.0'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.projectlombok:lombok:1.18.26'
+	compileOnly 'org.projectlombok:lombok'
+	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.0.8'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
+	implementation 'javax.inject:javax.inject:1'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+	implementation 'org.springframework:spring-core:6.0.10'
+	implementation 'org.springframework.boot:spring-boot-starter-mail:3.1.2'
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.13.0'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation group: 'org.apache.tika', name: 'tika-core', version: '2.9.0'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'mysql:mysql-connector-java, version: 8.0.28'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+
+springBoot {
+	mainClass = "csms.CsmsApplication" // Replace with your Spring Boot main class
+}
+
+tasks.named('test') {
+	outputs.dir snippetsDir
+	useJUnitPlatform()
+}
+
+tasks.named('asciidoctor') {
+	inputs.dir snippetsDir
+	dependsOn test
+}

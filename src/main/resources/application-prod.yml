@@ -1,0 +1,50 @@
+spring:
+  server:
+    port: 8080
+  batch:
+    job:
+      enabled: false
+  datasource:
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      url: jdbc:log4jdbc:mariadb://172.16.0.22:3306/csms?characterEncoding=UTF-8&serverTimezone=UTC
+      username: csms
+      password: ~dltvor2009
+      hikari:
+        connection-timeout: 3000
+        maximum-pool-size: 100
+        max-lifetime: 1500
+        initSQL: SELECT 1
+        testOnBorrow: true
+        test-while-idle: true
+        validationQuery: SELECT 1
+        time-between-eviction-runs-millis: 600000
+        pool-name: csmsHikariPool
+        leak-detection-threshold: 2000
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+
+  package:
+    name: itfact
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 1MB
+      location: C:/smartUpload
+      max-request-size: 10MB
+      max-file-size: 10MB
+
+aes256:
+  key: 0707405170060121784
+  cipher: AES/CBC/PKCS5Padding
+  algorithm: AES
+  encoding:
+    charset: UTF-8
+logging:
+  level:
+    com.zaxxer.hikari.HikariConfig: DEBUG
+    com.zaxxer.hikari: TRACE
+
+mybatis:
+  type-aliases-package: itfact.entp.enterprise.dao

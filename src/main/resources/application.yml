@@ -1,0 +1,21 @@
+#spring:
+#  profiles:
+#    active: prod
+#---
+#spring:
+#  profiles:
+#    active: dev
+#---
+#spring:
+#  profiles:
+#    active: local
+
+
+spring:
+  profiles:
+    active: local
+---
+spring:
+  config:
+    activate:
+      on-profile: local, dev, prod
