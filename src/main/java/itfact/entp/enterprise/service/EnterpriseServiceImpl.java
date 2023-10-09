@@ -127,6 +127,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
                 for(EnterpriseSvcDTO item : enterpriseSvcDTOList) {
                     enterpriseSvcDTO = new EnterpriseSvcDTO();
                     enterpriseSvcDTO.setEntp_unq     (enterpriseDTO.getEntp_unq());
+                    enterpriseSvcDTO.setSvr_unq      (item.getSvr_unq()          );
                     enterpriseSvcDTO.setSvr_hst      (item.getSvr_hst()          );
                     enterpriseSvcDTO.setSvr_ip       (item.getSvr_ip()           );
                     enterpriseSvcDTO.setSvr_cont     (item.getSvr_cont()         );

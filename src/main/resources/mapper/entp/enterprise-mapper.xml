@@ -266,10 +266,11 @@
             ,BASE_PATH     = #{base_path}
             ,LOG_PATH      = #{log_path}
             ,GNR_MEMO      = #{gnr_memo}
-            ,REG_USR_ID    = #{reg_usr_id}
-            ,REG_DTM       = #{reg_dtm}
+            ,CHG_USR_ID    = #{chg_usr_id}
+            ,CHG_DTM       = now()
         WHERE
             ENTP_UNQ = #{entp_unq}
+        AND SVR_UNQ  = #{svr_unq}
     </update>
 
 </mapper>

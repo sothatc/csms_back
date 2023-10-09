@@ -24,7 +24,6 @@ public class EnterpriseDAO {
     }
 
     public EnterpriseDTO selectEnterprise(int entp_unq) {
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~entp_unq" + entp_unq);
         return sqlSessionTemplate.selectOne(NAMESPACE + "selectEnterprise", entp_unq);
     }
     public List<EnterpriseCustDTO> getEnterpriseCustListInfo(int entpUnq) {

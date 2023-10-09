@@ -27,4 +27,6 @@ public class EnterpriseSvcDTO {
     private String gnr_memo;      // 기타 메모
     private String reg_usr_id;    // 등록 사용자 id
     private String reg_dtm;       // 등록 일시
+    private String chg_usr_id;
+    private String chg_dtm;
 }
