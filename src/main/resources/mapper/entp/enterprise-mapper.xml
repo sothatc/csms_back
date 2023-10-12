@@ -62,12 +62,18 @@
 
     <select id="getEnterpriseAtchList" resultType="EnterpriseAtchDTO">
         SELECT
-            *
+        *
         FROM
-            TBL_ENTP_ATCH_LST
+        TBL_ENTP_ATCH_LST
         WHERE 1=1
-          AND ENTP_UNQ = #{entp_unq}
-          AND DEL_YN = 'N'
+        AND DEL_YN = 'N'
+
+        <if test="entp_unq != null and entp_unq != ''">
+            AND ENTP_UNQ =#{entp_unq}
+        </if>
+        <if test="atch_file_unq != null and atch_file_unq != ''">
+            AND ATCH_FILE_UNQ = #{atch_file_unq}
+        </if>
     </select>
 
     <insert id="insertEnterpriseInfo" parameterType="EnterpriseDTO" useGeneratedKeys="true" keyProperty="entp_unq">
@@ -209,14 +215,14 @@
     <update id="updateEnterpriseinfo" parameterType="EnterpriseDTO">
         UPDATE STT_ENTP_LST
         SET
-             ENTP_TP       = #{entp_tp}
-            ,ENTP_NM       = #{entp_nm}
-            ,SVC_TP        = #{svc_tp}
-            ,STT_MONTH_CNT = #{stt_month_cnt}
-            ,STT_DAY_CNT   = #{stt_day_cnt}
-            ,GNR_MEMO      = #{gnr_memo}
-            ,CHG_USR_ID    = #{chg_usr_id}
-            ,CHG_DTM       = now()
+            ENTP_TP       = #{entp_tp}
+          ,ENTP_NM       = #{entp_nm}
+          ,SVC_TP        = #{svc_tp}
+          ,STT_MONTH_CNT = #{stt_month_cnt}
+          ,STT_DAY_CNT   = #{stt_day_cnt}
+          ,GNR_MEMO      = #{gnr_memo}
+          ,CHG_USR_ID    = #{chg_usr_id}
+          ,CHG_DTM       = now()
         WHERE
             ENTP_UNQ = #{entp_unq}
     </update>
@@ -224,13 +230,13 @@
     <update id="updateCustInfo" parameterType="EnterpriseCustDTO">
         UPDATE STT_CUST_LST
         SET
-             MEMB_DEPT_NM = #{memb_dept_nm}
-            ,MEMB_NM      = #{memb_nm}
-            ,MEMB_PST_NM  = #{memb_pst_nm}
-            ,MEMB_TEL     = #{memb_tel}
-            ,MEMB_EMAIL   = #{memb_email}
-            ,CHG_USR_ID   = #{chg_usr_id}
-            ,CHG_DTM      = now()
+            MEMB_DEPT_NM = #{memb_dept_nm}
+          ,MEMB_NM      = #{memb_nm}
+          ,MEMB_PST_NM  = #{memb_pst_nm}
+          ,MEMB_TEL     = #{memb_tel}
+          ,MEMB_EMAIL   = #{memb_email}
+          ,CHG_USR_ID   = #{chg_usr_id}
+          ,CHG_DTM      = now()
         WHERE
             CUST_UNQ = #{cust_unq}
     </update>
@@ -238,9 +244,9 @@
     <update id="deleteEnterpriseAtchInfo" parameterType="EnterpriseAtchDTO">
         UPDATE TBL_ENTP_ATCH_LST
         SET
-             DEL_YN = "Y"
-            ,CHG_USR_ID = #{chg_usr_id}
-            ,CHG_DTM    = now()
+            DEL_YN = "Y"
+          ,CHG_USR_ID = #{chg_usr_id}
+          ,CHG_DTM    = now()
         WHERE
             ATCH_FILE_UNQ = #{atch_file_unq}
 
@@ -249,28 +255,28 @@
     <update id="updateSvcInfo" parameterType="EnterpriseSvcDTO">
         UPDATE STT_ENTP_SVR_LST
         SET
-             SVR_HST       = #{svr_hst}
-            ,SVR_IP        = #{svr_ip}
-            ,SVR_CONT      = #{svr_cont}
-            ,USE_FLAG      = #{use_flag}
-            ,RESC_USE_FLAG = #{resc_use_flag}
-            ,TRN_USE_FLAG  = #{trn_use_flag}
-            ,OS_VERS       = #{os_vers}
-            ,KERN_VERS     = #{kern_vers}
-            ,CPU_CNT       = #{cpu_cnt}
-            ,TOTAL_MEM_SZ  = #{total_mem_sz}
-            ,USED_MEM_SZ   = #{used_mem_sz}
-            ,GPU_MODEL     = #{gpu_model}
-            ,TOTAL_DISK_SZ = #{total_disk_sz}
-            ,USED_DISK_SZ  = #{used_disk_sz}
-            ,BASE_PATH     = #{base_path}
-            ,LOG_PATH      = #{log_path}
-            ,GNR_MEMO      = #{gnr_memo}
-            ,CHG_USR_ID    = #{chg_usr_id}
-            ,CHG_DTM       = now()
+            SVR_HST       = #{svr_hst}
+          ,SVR_IP        = #{svr_ip}
+          ,SVR_CONT      = #{svr_cont}
+          ,USE_FLAG      = #{use_flag}
+          ,RESC_USE_FLAG = #{resc_use_flag}
+          ,TRN_USE_FLAG  = #{trn_use_flag}
+          ,OS_VERS       = #{os_vers}
+          ,KERN_VERS     = #{kern_vers}
+          ,CPU_CNT       = #{cpu_cnt}
+          ,TOTAL_MEM_SZ  = #{total_mem_sz}
+          ,USED_MEM_SZ   = #{used_mem_sz}
+          ,GPU_MODEL     = #{gpu_model}
+          ,TOTAL_DISK_SZ = #{total_disk_sz}
+          ,USED_DISK_SZ  = #{used_disk_sz}
+          ,BASE_PATH     = #{base_path}
+          ,LOG_PATH      = #{log_path}
+          ,GNR_MEMO      = #{gnr_memo}
+          ,CHG_USR_ID    = #{chg_usr_id}
+          ,CHG_DTM       = now()
         WHERE
             ENTP_UNQ = #{entp_unq}
-        AND SVR_UNQ  = #{svr_unq}
+          AND SVR_UNQ  = #{svr_unq}
     </update>
 
 </mapper>

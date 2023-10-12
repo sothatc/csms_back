@@ -34,8 +34,8 @@ public class EnterpriseDAO {
         return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseSvcListInfo", entpUnq);
     }
 
-    public List<EnterpriseAtchDTO> getEnterpriseAtchList(int entpUnq) {
-        return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseAtchList", entpUnq);
+    public List<EnterpriseAtchDTO> getEnterpriseAtchList(EnterpriseAtchDTO enterpriseAtchDTO) {
+        return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseAtchList", enterpriseAtchDTO);
     }
 
     public int insertEnterpriseInfo(EnterpriseDTO enterpriseDTO) {

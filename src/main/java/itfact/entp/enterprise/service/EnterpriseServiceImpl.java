@@ -47,8 +47,8 @@ public class EnterpriseServiceImpl implements EnterpriseService {
         return enterpriseDAO.getEnterpriseSvcListInfo(entp_unq);
     }
 
-    public List<EnterpriseAtchDTO> getEnterpriseAtchList(int entp_unq) {
-        return enterpriseDAO.getEnterpriseAtchList(entp_unq);
+    public List<EnterpriseAtchDTO> getEnterpriseAtchList(EnterpriseAtchDTO enterpriseAtchDTO) {
+        return enterpriseDAO.getEnterpriseAtchList(enterpriseAtchDTO);
     }
 
     public boolean setEnterpriseInfo(EnterpriseDTO enterpriseDTO, EnterpriseCustDTO enterpriseCustDTO, List<MultipartFile> files, List<EnterpriseSvcDTO> enterpriseSvcDTOList) {

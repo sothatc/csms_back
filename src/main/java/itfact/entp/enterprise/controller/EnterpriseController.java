@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import itfact.common.response.dto.ResponseDTO;
 import itfact.common.response.enums.ResponseCode;
+import itfact.common.util.CommonConstant;
 import itfact.common.util.FileUtils;
 import itfact.common.util.ResponseUtil;
 import itfact.common.util.StringUtils;
@@ -16,10 +17,20 @@ import itfact.entp.enterprise.dto.EnterpriseSvcDTO;
 import itfact.entp.enterprise.service.EnterpriseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.buf.UriUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriUtils;
 
+import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +42,9 @@ public class EnterpriseController {
 
     @Autowired
     private EnterpriseService enterpriseService;
+
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadPath;
 
     @PostMapping("/getEnterpriseList")
     public ResponseDTO getEnterpriseList(@RequestBody EnterpriseDTO reqDto) {
@@ -46,7 +60,10 @@ public class EnterpriseController {
     @PostMapping("/getEnterpriseDtlInfo")
     public ResponseDTO getEnterpriseDtlInfo(@RequestBody EnterpriseDTO reqDTO) {
 
+        EnterpriseAtchDTO enterpriseAtchDTO = new EnterpriseAtchDTO();
+
         int entp_unq = reqDTO.getEntp_unq();
+        enterpriseAtchDTO.setEntp_unq(entp_unq);
 
         HashMap<String, Object> enterpriseDtlMap = new HashMap<>();
 
@@ -59,7 +76,7 @@ public class EnterpriseController {
         List<EnterpriseSvcDTO> enterpriseSvcDTOList = enterpriseService.getEnterpriseSvcListInfo(entp_unq);
         enterpriseDtlMap.put("enterpriseSvcData", enterpriseSvcDTOList);
 
-        List<EnterpriseAtchDTO> enterpriseAtchDTOList = enterpriseService.getEnterpriseAtchList(entp_unq);
+        List<EnterpriseAtchDTO> enterpriseAtchDTOList = enterpriseService.getEnterpriseAtchList(enterpriseAtchDTO);
         enterpriseDtlMap.put("enterpriseAtchData", enterpriseAtchDTOList);
 
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, enterpriseDtlMap);
@@ -101,11 +118,32 @@ public class EnterpriseController {
         return ResponseUtil.SUCCESS(ResponseCode.FAIL_SAVE);
     }
 
-//    @PostMapping("/setEnterpriseSvcInfo")
-//    public EnterpriseSvcDTO setEnterpriseSvcInfo(EnterpriseSvcDTO enterpriseSvcDTO) {
-//        boolean result = enterpriseService.setEnterpriseSvcInfo(enterpriseSvcDTO);
-//
-//        return ResponseUtil.SUCCESS(ResponseCode.INVALID_INPUT_VALUE);
-//    }
+    @PostMapping("/atch/{atchFileUnq}")
+    public ResponseEntity<Resource> downloadAttach(@PathVariable("atchFileUnq") int atchFileUnq) throws MalformedURLException {
+
+        EnterpriseAtchDTO enterpriseAtchDTO = new EnterpriseAtchDTO();
+        enterpriseAtchDTO.setAtch_file_unq(atchFileUnq);
+
+        List<EnterpriseAtchDTO> enterpriseAtchList = enterpriseService.getEnterpriseAtchList(enterpriseAtchDTO);
+
+        if (enterpriseAtchList.size() == 0) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        //db에서 파일 경로 가져오기
+        UrlResource resource = new UrlResource("file:" + uploadPath + "/" + CommonConstant.DEFAULT_UPLOAD_ENTERPRISE_DIR + "/" + enterpriseAtchList.get(0).getAtch_file_nm());
+
+        //실제 파일명
+        String encodedFileName = UriUtils.encode(enterpriseAtchList.get(0).getAtch_file_org_nm(), StandardCharsets.UTF_8);
+
+        //파일 다운로드 대화상자가 뜨도록 헤더를 설정
+        // Content-Disposition 헤더에 attachment; filename="업로드 파일명" 값을 줌.
+        String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
+
+        System.out.println("@@@@@@@ resource = " + resource);
+        System.out.println("encodedFileName = " + encodedFileName);
+        System.out.println("contentDisposition = " + contentDisposition);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition).body(resource);
+    }
 
 }

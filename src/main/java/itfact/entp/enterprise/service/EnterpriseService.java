@@ -11,7 +11,7 @@ import java.util.List;
 public interface EnterpriseService {
     public List<EnterpriseDTO> getEnterpriseList(EnterpriseDTO reqDTO);
 
-//    public boolean setEnterpriseInfo(EnterpriseDTO reqDTO, List<MultipartFile> files);
+    //    public boolean setEnterpriseInfo(EnterpriseDTO reqDTO, List<MultipartFile> files);
     public boolean setEnterpriseInfo(EnterpriseDTO enterpriseDTO, EnterpriseCustDTO enterpriseCustDTO, List<MultipartFile> files, List<EnterpriseSvcDTO> enterpriseSvcDTOList);
 
     public EnterpriseDTO getEnterprise(int reqDTO);
@@ -20,6 +20,6 @@ public interface EnterpriseService {
 
     public List<EnterpriseSvcDTO> getEnterpriseSvcListInfo(int entpUnq);
 
-    public List<EnterpriseAtchDTO> getEnterpriseAtchList(int entpUnq);
+    public List<EnterpriseAtchDTO> getEnterpriseAtchList(EnterpriseAtchDTO enterpriseAtchDTO);
 
 }
