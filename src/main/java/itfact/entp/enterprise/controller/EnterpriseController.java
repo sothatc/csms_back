@@ -83,6 +83,15 @@ public class EnterpriseController {
 
     }
 
+    @PostMapping("/getCustList")
+    public ResponseDTO getCustList(@RequestBody EnterpriseCustDTO reqDTO) {
+        int entp_unq = reqDTO.getEntp_unq();
+
+        List<EnterpriseCustDTO> enterpriseCustDTO = enterpriseService.getEnterpriseCustListInfo(entp_unq);
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, enterpriseCustDTO);
+    }
+
     @PostMapping("/setEnterpriseInfo")
     public ResponseDTO setEnterpriseInfo(@RequestParam(value="enterpriseData") String enterpriseData, @RequestParam(value="custData") String custData, @RequestParam(value="files", required = false) List<MultipartFile> files, @RequestParam(value = "systemData") String systemData) throws JsonProcessingException {
 
@@ -118,6 +127,18 @@ public class EnterpriseController {
         return ResponseUtil.SUCCESS(ResponseCode.FAIL_SAVE);
     }
 
+    @PostMapping("/setCustInfo")
+    public ResponseDTO insertCustInfo(@RequestBody EnterpriseCustDTO enterpriseCustDTO) {
+
+        if (StringUtils.isEmpty(enterpriseCustDTO.getFlag())){
+            return ResponseUtil.SUCCESS(ResponseCode.INVALID_INPUT_VALUE);
+        }
+
+        boolean result = enterpriseService.insertEnterpriseCustInfo(enterpriseCustDTO);
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE);
+    }
+
     @PostMapping("/atch/{atchFileUnq}")
     public ResponseEntity<Resource> downloadAttach(@PathVariable("atchFileUnq") int atchFileUnq) throws MalformedURLException {
 
@@ -140,10 +161,14 @@ public class EnterpriseController {
         // Content-Disposition 헤더에 attachment; filename="업로드 파일명" 값을 줌.
         String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
 
-        System.out.println("@@@@@@@ resource = " + resource);
-        System.out.println("encodedFileName = " + encodedFileName);
-        System.out.println("contentDisposition = " + contentDisposition);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition).body(resource);
     }
 
+    @PostMapping("/deleteCustInfo")
+    public ResponseDTO deleteCustInfo(@RequestBody EnterpriseCustDTO enterpriseCustDTO) {
+//        int cust_unq = reqDto.getCust_unq();
+
+        boolean result = enterpriseService.deleteCustInfo(enterpriseCustDTO);
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
+    }
 }

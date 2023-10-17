@@ -19,7 +19,6 @@ public class EnterpriseDAO {
     }
 
     public List<EnterpriseDTO> selectEnterpriseList(EnterpriseDTO enterpriseDTO) {
-
         return sqlSessionTemplate.selectList(NAMESPACE + "selectEnterpriseList", enterpriseDTO);
     }
 
@@ -70,5 +69,13 @@ public class EnterpriseDAO {
 
     public void updateSvcInfo(EnterpriseSvcDTO enterpriseSvcDTO) {
         sqlSessionTemplate.update(NAMESPACE + "updateSvcInfo", enterpriseSvcDTO);
+    }
+
+    public void insertEnterpriseCustInfo(EnterpriseCustDTO enterpriseCustDTO) {
+        sqlSessionTemplate.insert(NAMESPACE + "insertCustInfo", enterpriseCustDTO);
+    }
+
+    public void deleteCustInfo(EnterpriseCustDTO enterpriseCustDTO) {
+        sqlSessionTemplate.update(NAMESPACE + "deleteCustInfo", enterpriseCustDTO);
     }
 }

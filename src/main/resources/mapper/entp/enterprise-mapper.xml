@@ -48,7 +48,8 @@
         FROM
             STT_CUST_LST
         WHERE 1=1
-          AND ENTP_UNQ = #{entp_unq}
+            AND ENTP_UNQ = #{entp_unq}
+            AND DEL_YN = 'N'
     </select>
 
     <select id="getEnterpriseSvcListInfo" resultType="EnterpriseSvcDTO" parameterType="EnterpriseDTO">
@@ -67,10 +68,7 @@
         TBL_ENTP_ATCH_LST
         WHERE 1=1
         AND DEL_YN = 'N'
-
-        <if test="entp_unq != null and entp_unq != ''">
-            AND ENTP_UNQ =#{entp_unq}
-        </if>
+        AND ENTP_UNQ =#{entp_unq}
         <if test="atch_file_unq != null and atch_file_unq != ''">
             AND ATCH_FILE_UNQ = #{atch_file_unq}
         </if>
@@ -118,7 +116,8 @@
             REG_DTM,
             CHG_USR_ID,
             CHG_DTM,
-            PRINCIPAL_TP
+            PRINCIPAL_TP,
+            DEL_YN
         )
         VALUES(
                   #{entp_unq},
@@ -132,7 +131,8 @@
                   now(),
                   #{chg_usr_id},
                   null,
-                  #{principal_tp}
+                  #{principal_tp},
+                  'N'
               )
     </insert>
 
@@ -277,6 +277,16 @@
         WHERE
             ENTP_UNQ = #{entp_unq}
           AND SVR_UNQ  = #{svr_unq}
+    </update>
+
+    <update id="deleteCustInfo" parameterType="EnterpriseCustDTO">
+        UPDATE STT_CUST_LST
+        SET
+            DEL_YN = 'Y'
+           ,CHG_USR_ID = #{chg_usr_id}
+           ,CHG_DTM    = now()
+        WHERE
+            CUST_UNQ = #{cust_unq}
     </update>
 
 </mapper>

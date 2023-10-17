@@ -22,4 +22,7 @@ public interface EnterpriseService {
 
     public List<EnterpriseAtchDTO> getEnterpriseAtchList(EnterpriseAtchDTO enterpriseAtchDTO);
 
+    boolean insertEnterpriseCustInfo(EnterpriseCustDTO enterpriseCustDTO);
+
+    boolean deleteCustInfo(EnterpriseCustDTO enterpriseCustDTO);
 }

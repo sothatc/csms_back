@@ -161,10 +161,27 @@ public class EnterpriseServiceImpl implements EnterpriseService {
         return true;
     }
 
+    public boolean insertEnterpriseCustInfo(EnterpriseCustDTO enterpriseCustDTO) {
 
-//    public boolean setEnterpriseSvcInfo(EnterpriseSvcDTO enterpriseSvcDTO) {
-//
-//    }
+        try {
+            enterpriseDAO.insertEnterpriseCustInfo(enterpriseCustDTO);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean deleteCustInfo(EnterpriseCustDTO enterpriseCustDTO) {
+        try {
+            enterpriseDAO.deleteCustInfo(enterpriseCustDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 
 }

@@ -20,4 +20,6 @@ public class EnterpriseCustDTO {
     private String chg_usr_id;
     private String chg_dtm;
     private String principal_tp;
+    private String flag;
+    private String del_yn;
 }
