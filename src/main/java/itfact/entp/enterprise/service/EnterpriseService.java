@@ -25,4 +25,6 @@ public interface EnterpriseService {
     boolean insertEnterpriseCustInfo(EnterpriseCustDTO enterpriseCustDTO);
 
     boolean deleteCustInfo(EnterpriseCustDTO enterpriseCustDTO);
+
+    boolean deleteEnterpriseInfo(EnterpriseDTO enterpriseDTO);
 }

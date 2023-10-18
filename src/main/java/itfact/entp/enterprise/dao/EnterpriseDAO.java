@@ -78,4 +78,8 @@ public class EnterpriseDAO {
     public void deleteCustInfo(EnterpriseCustDTO enterpriseCustDTO) {
         sqlSessionTemplate.update(NAMESPACE + "deleteCustInfo", enterpriseCustDTO);
     }
+
+    public void deleteEnterpriseInfo(EnterpriseDTO enterpriseDTO) {
+        sqlSessionTemplate.update(NAMESPACE + "deleteEnterpriseInfo", enterpriseDTO);
+    }
 }

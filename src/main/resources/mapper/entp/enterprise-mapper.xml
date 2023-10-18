@@ -17,6 +17,7 @@
         ) AS ATCH_FILE_BOOL
         FROM STT_ENTP_LST E
         WHERE 1=1
+        AND E.DEL_YN = 'N'
         <if test="svc_tp != null and svc_tp != ''">
             AND E.SVC_TP = #{svc_tp}
         </if>
@@ -29,17 +30,18 @@
     </select>
 
     <select id="selectEnterprise" resultType="EnterpriseDTO" parameterType="EnterpriseDTO">
-        SELECT E.ENTP_UNQ
-             , E.ENTP_TP
-             , E.ENTP_NM
-             , E.SVC_TP
-             , E.GNR_MEMO
-             , E.STT_MONTH_CNT
-             , E.STT_DAY_CNT
-             , E.REG_DTM
-        FROM   STT_ENTP_LST E
+        SELECT ENTP_UNQ
+             ,ENTP_TP
+             ,ENTP_NM
+             ,SVC_TP
+             ,GNR_MEMO
+             ,STT_MONTH_CNT
+             ,STT_DAY_CNT
+             ,REG_DTM
+        FROM   STT_ENTP_LST
         WHERE  1=1
-          AND E.ENTP_UNQ = #{entp_unq}
+          AND ENTP_UNQ = #{entp_unq}
+          AND DEL_YN = 'N'
     </select>
 
     <select id="getEnterpriseCustListInfo" resultType="EnterpriseCustDTO" parameterType="EnterpriseDTO">
@@ -48,8 +50,8 @@
         FROM
             STT_CUST_LST
         WHERE 1=1
-            AND ENTP_UNQ = #{entp_unq}
-            AND DEL_YN = 'N'
+          AND ENTP_UNQ = #{entp_unq}
+          AND DEL_YN = 'N'
     </select>
 
     <select id="getEnterpriseSvcListInfo" resultType="EnterpriseSvcDTO" parameterType="EnterpriseDTO">
@@ -67,8 +69,11 @@
         FROM
         TBL_ENTP_ATCH_LST
         WHERE 1=1
-        AND DEL_YN = 'N'
-        AND ENTP_UNQ =#{entp_unq}
+        AND DEL_YN   = 'N'
+
+        <if test="entp_unq != null and entp_unq != ''">
+            AND ENTP_UNQ = #{entp_unq}
+        </if>
         <if test="atch_file_unq != null and atch_file_unq != ''">
             AND ATCH_FILE_UNQ = #{atch_file_unq}
         </if>
@@ -283,10 +288,28 @@
         UPDATE STT_CUST_LST
         SET
             DEL_YN = 'Y'
-           ,CHG_USR_ID = #{chg_usr_id}
-           ,CHG_DTM    = now()
+          ,CHG_USR_ID = #{chg_usr_id}
+          ,CHG_DTM    = now()
         WHERE
             CUST_UNQ = #{cust_unq}
+    </update>
+
+    <update id="deleteEnterpriseInfo" parameterType="EnterpriseDTO">
+        UPDATE STT_ENTP_LST AS E
+            LEFT JOIN STT_CUST_LST AS C ON E.ENTP_UNQ = C.ENTP_UNQ
+            LEFT JOIN TBL_ENTP_ATCH_LST AS F ON E.ENTP_UNQ = F.ENTP_UNQ
+            SET
+                E.DEL_YN = 'Y'
+                ,C.DEL_YN = 'Y'
+                ,F.DEL_YN = 'Y'
+                ,E.CHG_USR_ID = #{chg_usr_id}
+                ,C.CHG_USR_ID = #{chg_usr_id}
+                ,F.CHG_USR_ID = #{chg_usr_id}
+                ,E.CHG_DTM = now()
+                ,C.CHG_DTM = now()
+                ,F.CHG_DTM = now()
+        WHERE
+            E.ENTP_UNQ = #{entp_unq}
     </update>
 
 </mapper>

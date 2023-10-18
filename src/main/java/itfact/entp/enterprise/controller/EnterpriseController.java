@@ -166,9 +166,15 @@ public class EnterpriseController {
 
     @PostMapping("/deleteCustInfo")
     public ResponseDTO deleteCustInfo(@RequestBody EnterpriseCustDTO enterpriseCustDTO) {
-//        int cust_unq = reqDto.getCust_unq();
-
         boolean result = enterpriseService.deleteCustInfo(enterpriseCustDTO);
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
     }
+
+    @PostMapping("/deleteEnterpriseInfo")
+    public ResponseDTO deleteEnterpriseInfo(@RequestBody EnterpriseDTO enterpriseDTO) {
+        boolean result = enterpriseService.deleteEnterpriseInfo(enterpriseDTO);
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
+    }
+
 }

@@ -184,4 +184,15 @@ public class EnterpriseServiceImpl implements EnterpriseService {
         return true;
     }
 
+    public boolean deleteEnterpriseInfo(EnterpriseDTO enterpriseDTO) {
+        try {
+            enterpriseDAO.deleteEnterpriseInfo(enterpriseDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
 }
