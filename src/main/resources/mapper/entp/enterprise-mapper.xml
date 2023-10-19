@@ -79,6 +79,16 @@
         </if>
     </select>
 
+    <select id="getEnterpriseCustOneInfo" parameterType="EnterpriseCustDTO" resultType="EnterpriseCustDTO">
+        SELECT
+            *
+        FROM
+            STT_CUST_LST
+        WHERE 1=1
+          AND CUST_UNQ = #{cust_unq}
+          AND DEL_YN = 'N'
+    </select>
+
     <insert id="insertEnterpriseInfo" parameterType="EnterpriseDTO" useGeneratedKeys="true" keyProperty="entp_unq">
         INSERT INTO STT_ENTP_LST(
             ENTP_TP,
@@ -300,14 +310,14 @@
             LEFT JOIN TBL_ENTP_ATCH_LST AS F ON E.ENTP_UNQ = F.ENTP_UNQ
             SET
                 E.DEL_YN = 'Y'
-                ,C.DEL_YN = 'Y'
-                ,F.DEL_YN = 'Y'
-                ,E.CHG_USR_ID = #{chg_usr_id}
-                ,C.CHG_USR_ID = #{chg_usr_id}
-                ,F.CHG_USR_ID = #{chg_usr_id}
-                ,E.CHG_DTM = now()
-                ,C.CHG_DTM = now()
-                ,F.CHG_DTM = now()
+                    ,C.DEL_YN = 'Y'
+                    ,F.DEL_YN = 'Y'
+                    ,E.CHG_USR_ID = #{chg_usr_id}
+                    ,C.CHG_USR_ID = #{chg_usr_id}
+                    ,F.CHG_USR_ID = #{chg_usr_id}
+                    ,E.CHG_DTM = now()
+                    ,C.CHG_DTM = now()
+                    ,F.CHG_DTM = now()
         WHERE
             E.ENTP_UNQ = #{entp_unq}
     </update>

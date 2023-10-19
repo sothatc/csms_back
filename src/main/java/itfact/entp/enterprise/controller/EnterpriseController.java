@@ -92,6 +92,15 @@ public class EnterpriseController {
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, enterpriseCustDTO);
     }
 
+    @PostMapping("/getCustOneInfo")
+    public ResponseDTO getCustOneInfo(@RequestBody EnterpriseCustDTO reqDTO) {
+        int cust_unq = reqDTO.getCust_unq();
+
+        EnterpriseCustDTO enterpriseCustDTO = enterpriseService.getEnterpriseCustOneInfo(cust_unq);
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, enterpriseCustDTO);
+    }
+
     @PostMapping("/setEnterpriseInfo")
     public ResponseDTO setEnterpriseInfo(@RequestParam(value="enterpriseData") String enterpriseData, @RequestParam(value="custData") String custData, @RequestParam(value="files", required = false) List<MultipartFile> files, @RequestParam(value = "systemData") String systemData) throws JsonProcessingException {
 

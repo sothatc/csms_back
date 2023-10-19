@@ -29,6 +29,10 @@ public class EnterpriseDAO {
         return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseCustListInfo", entpUnq);
     }
 
+    public EnterpriseCustDTO getEnterpriseCustOneInfo(int custUnq) {
+        return sqlSessionTemplate.selectOne(NAMESPACE + "getEnterpriseCustOneInfo", custUnq);
+    }
+
     public List<EnterpriseSvcDTO> getEnterpriseSvcListInfo(int entpUnq) {
         return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseSvcListInfo", entpUnq);
     }
@@ -82,4 +86,6 @@ public class EnterpriseDAO {
     public void deleteEnterpriseInfo(EnterpriseDTO enterpriseDTO) {
         sqlSessionTemplate.update(NAMESPACE + "deleteEnterpriseInfo", enterpriseDTO);
     }
+
+
 }

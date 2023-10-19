@@ -43,6 +43,10 @@ public class EnterpriseServiceImpl implements EnterpriseService {
         return enterpriseDAO.getEnterpriseCustListInfo(entp_unq);
     }
 
+    public EnterpriseCustDTO getEnterpriseCustOneInfo(int custUnq) {
+        return enterpriseDAO.getEnterpriseCustOneInfo(custUnq);
+    }
+
     public List<EnterpriseSvcDTO> getEnterpriseSvcListInfo(int entp_unq) {
         return enterpriseDAO.getEnterpriseSvcListInfo(entp_unq);
     }

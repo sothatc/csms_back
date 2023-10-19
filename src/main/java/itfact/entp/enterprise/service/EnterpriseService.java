@@ -27,4 +27,6 @@ public interface EnterpriseService {
     boolean deleteCustInfo(EnterpriseCustDTO enterpriseCustDTO);
 
     boolean deleteEnterpriseInfo(EnterpriseDTO enterpriseDTO);
+
+    EnterpriseCustDTO getEnterpriseCustOneInfo(int custUnq);
 }
