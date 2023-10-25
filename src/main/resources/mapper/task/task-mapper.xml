@@ -5,19 +5,19 @@
 
     <select id="selectTaskMembList" resultType="TaskMembDTO">
         SELECT
-             MEMB_UNQ
-            ,MEMB_DEPT_NM
-            ,MEMB_NM
-            ,MEMB_PST_NM
-            ,MEMB_TEL
-            ,MEMB_EMAIL
+             TASK_USR_UNQ
+            ,TASK_DEPT
+            ,TASK_USR_NM
+            ,TASK_USR_PST_NM
+            ,TASK_USR_TEL
+            ,TASK_USR_EMAIL
             ,REG_USR_ID
             ,REG_DTM
             ,CHG_USR_ID
             ,CHG_DTM
             ,DEL_YN
         FROM
-            TBL_TASK_MEMB_LST
+            TBL_TASK_USR_LST
     </select>
 
 </mapper>
