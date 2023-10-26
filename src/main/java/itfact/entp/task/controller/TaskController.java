@@ -4,12 +4,14 @@ package itfact.entp.task.controller;
 import itfact.common.response.dto.ResponseDTO;
 import itfact.common.response.enums.ResponseCode;
 import itfact.common.util.ResponseUtil;
+import itfact.entp.task.dto.TaskDTO;
 import itfact.entp.task.dto.TaskMembDTO;
 import itfact.entp.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +31,12 @@ public class TaskController {
         List<TaskMembDTO> taskMembList = taskService.getTaskMembList();
 
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, taskMembList);
+    }
+
+    @PostMapping("/setTaskInfo")
+    public ResponseDTO setTaskInfo(@RequestBody TaskDTO taskDTO) {
+
+        boolean result = taskService.setTaskInfo(taskDTO);
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE);
     }
 }

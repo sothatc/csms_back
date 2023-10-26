@@ -7,24 +7,27 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TaskDTO {
 
-//    private int task_unq;
-//    private int entp_unq;
-//    private String task_dept;
-//    TASK_UNQ
-//            ENTP_UNQ
-//    TASK_DEPT
-//            TASK_USR_NM
-//    TASK_TP
-//            TASK_JOB_TP
-//    SVC_EFC
-//            CUST_UNQ
-//    TASK_ST_DT
-//            TASK_ST_TM
-//    TASK_ED_DT
-//            TASK_ED_TM
-//    TASK_MEMO
-//            REG_DTM
-//    DEL_YN
-//            STT_MONTH_CNT
-//    STT_DAY_CNT
+    private int    task_unq;
+    private int    entp_unq;
+    private int    cust_unq;
+    private String task_dept;
+    private String task_usr_nm;
+    private String task_tp;
+    private String task_job_tp;
+    private String svc_efc;
+    private String task_st_dt;
+    private String task_st_tm;
+    private String task_ed_dt;
+    private String task_ed_tm;
+    private String task_memo;
+    private String reg_dtm;
+    private String del_yn;
+    private String stt_month_total_cnt;
+    private String stt_month_s_cnt;
+    private String stt_month_f_cnt;
+    private String stt_day_total_cnt;
+    private String stt_day_s_cnt;
+    private String stt_day_f_cnt;
+
+    private String flag;
 }
