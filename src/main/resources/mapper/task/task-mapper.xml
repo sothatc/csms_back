@@ -21,7 +21,7 @@
     </select>
 
     <insert id="insertTaskInfo" parameterType="TaskDTO" useGeneratedKeys="true" keyProperty="task_unq">
-        INSERT INTO STT_ENTP_TASK_LST
+        INSERT INTO STT_ENTP_TASK_LST (
              CUST_UNQ
             ,ENTP_UNQ
             ,TASK_DEPT
@@ -42,8 +42,9 @@
             ,STT_DAY_S_CNT
             ,STT_DAY_F_CNT
             ,DEL_YN
+        )
         VALUES(
-            ,#{cust_unq}
+             #{cust_unq}
             ,#{entp_unq}
             ,#{task_dept}
             ,#{task_usr_nm}

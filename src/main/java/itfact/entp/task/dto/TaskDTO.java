@@ -22,12 +22,12 @@ public class TaskDTO {
     private String task_memo;
     private String reg_dtm;
     private String del_yn;
-    private String stt_month_total_cnt;
-    private String stt_month_s_cnt;
-    private String stt_month_f_cnt;
-    private String stt_day_total_cnt;
-    private String stt_day_s_cnt;
-    private String stt_day_f_cnt;
+    private int stt_month_total_cnt;
+    private int stt_month_s_cnt;
+    private int stt_month_f_cnt;
+    private int stt_day_total_cnt;
+    private int stt_day_s_cnt;
+    private int stt_day_f_cnt;
 
     private String flag;
 }

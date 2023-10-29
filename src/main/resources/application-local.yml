@@ -5,7 +5,7 @@ spring:
       type: com.zaxxer.hikari.HikariDataSource
       driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 #      url: jdbc:log4jdbc:mariadb://172.16.0.22:3306/csms?characterEncoding=UTF-8&serverTimezone=UTC
-      url: jdbc:log4jdbc:mariadb://192.168.35.250:3306/CSMS?allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC
+      url: jdbc:log4jdbc:mariadb://192.168.35.159:3306/CSMS?allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC
 #      username: csms
 #      password: ~dltvor2009
       username: csms
