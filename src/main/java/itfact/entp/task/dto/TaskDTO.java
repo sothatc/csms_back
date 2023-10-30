@@ -20,7 +20,10 @@ public class TaskDTO {
     private String task_ed_dt;
     private String task_ed_tm;
     private String task_memo;
+    private String reg_usr_id;
     private String reg_dtm;
+    private String chg_usr_id;
+    private String chg_dtm;
     private String del_yn;
     private int stt_month_total_cnt;
     private int stt_month_s_cnt;

@@ -67,4 +67,33 @@
         )
     </insert>
 
+    <insert id="insertTaskAtchInfo" parameterType="TaskAtchDTO" useGeneratedKeys="true" keyProperty="atch_file_unq">
+        INSERT INTO TBL_TASK_ATCH_LST(
+            ENTP_UNQ,
+            ATCH_FILE_NM,
+            ATCH_FILE_ORG_NM,
+            ATCH_FILE_PATH,
+            ATCH_FILE_SIZE,
+            GNR_MEMO,
+            REG_USR_ID,
+            REG_DTM,
+            CHG_USR_ID,
+            CHG_DTM,
+            DEL_YN
+        )
+        VALUES (
+           #{entp_unq},
+           #{atch_file_nm},
+           #{atch_file_org_nm},
+           #{atch_file_path},
+           #{atch_file_size},
+           #{gnr_memo},
+           #{reg_usr_id},
+           now(),
+           #{chg_usr_id},
+           now(),
+           'N'
+        )
+    </insert>
+
 </mapper>

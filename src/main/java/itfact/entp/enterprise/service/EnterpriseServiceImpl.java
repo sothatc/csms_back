@@ -69,9 +69,9 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 
                 enterpriseDAO.insertCustInfo(enterpriseCustDTO);
 
-                List<FileDTO> attacheFileList = fileService.saveFile(files, CommonConstant.DEFAULT_UPLOAD_ENTERPRISE_DIR);
+                List<FileDTO> attachFileList = fileService.saveFile(files, CommonConstant.DEFAULT_UPLOAD_ENTERPRISE_DIR);
 
-                for (FileDTO item : attacheFileList) {
+                for (FileDTO item : attachFileList) {
                     enterpriseAtchDTO = new EnterpriseAtchDTO();
                     enterpriseAtchDTO.setEntp_unq         (enterpriseNo                 );
                     enterpriseAtchDTO.setReg_usr_id       (enterpriseDTO.getReg_usr_id());

@@ -1,6 +1,7 @@
 package itfact.entp.task.dao;
 
 
+import itfact.entp.task.dto.TaskAtchDTO;
 import itfact.entp.task.dto.TaskDTO;
 import itfact.entp.task.dto.TaskMembDTO;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -23,7 +24,13 @@ public class TaskDAO {
         return sqlSessionTemplate.selectList(NAMESPACE + "selectTaskMembList");
     }
 
-    public void insertTaskInfo(TaskDTO taskDTO) {
+    public int insertTaskInfo(TaskDTO taskDTO) {
         sqlSessionTemplate.insert(NAMESPACE + "insertTaskInfo", taskDTO);
+        return taskDTO.getTask_unq();
+    }
+
+    public int insertTaskAtchInfo(TaskAtchDTO taskAtchDTO) {
+        sqlSessionTemplate.insert(NAMESPACE + "insertTaskAtchInfo", taskAtchDTO);
+        return taskAtchDTO.getAtch_file_unq();
     }
 }
