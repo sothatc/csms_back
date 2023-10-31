@@ -12,9 +12,9 @@
         , E.STT_DAY_CNT
         , E.REG_DTM
         , (SELECT DISTINCT 'true'
-        FROM TBL_ENTP_ATCH_LST F
-        WHERE F.ENTP_UNQ = E.ENTP_UNQ
-        ) AS ATCH_FILE_BOOL
+            FROM TBL_ENTP_ATCH_LST F
+            WHERE F.ENTP_UNQ = E.ENTP_UNQ
+          ) AS ATCH_FILE_BOOL
         FROM STT_ENTP_LST E
         WHERE 1=1
         AND E.DEL_YN = 'N'

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -27,6 +28,16 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
+
+    @PostMapping("/getTaskList")
+    public ResponseDTO getTaskList(@RequestBody TaskDTO taskDTO) {
+        List<TaskDTO> taskList = taskService.getTaskList(taskDTO);
+
+        HashMap<String, Object> taskListMap = new HashMap<>();
+        taskListMap.put("taskList", taskList);
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, taskListMap);
+    }
 
     @PostMapping("/getTaskMembList")
     public ResponseDTO getTaskMembList() {

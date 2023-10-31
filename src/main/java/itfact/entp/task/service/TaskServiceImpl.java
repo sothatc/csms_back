@@ -23,6 +23,11 @@ public class TaskServiceImpl implements TaskService{
 
     @Autowired
     private FileService fileService;
+
+    public List<TaskDTO> getTaskList(TaskDTO taskDTO) {
+        return taskDAO.selectTaskList(taskDTO);
+    }
+
     public List<TaskMembDTO> getTaskMembList() {
         return taskDAO.selectTaskMembList();
     }

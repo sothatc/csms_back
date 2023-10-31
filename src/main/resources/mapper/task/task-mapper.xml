@@ -3,6 +3,38 @@
 
 <mapper namespace="TaskDAO">
 
+    <select id="selectTaskList" resultType="TaskDTO" parameterType="TaskDTO">
+        SELECT
+             T.TASK_UNQ
+            ,T.ENTP_UNQ
+            ,T.CUST_UNQ
+            ,T.TASK_TP
+            ,T.TASK_JOB_TP
+            ,T.TASK_USR_NM
+            ,T.TASK_ST_DT
+            ,T.TASK_ED_DT
+            ,(SELECT DISTINCT 'true'
+                FROM TBL_TASK_ATCH_LST F
+                WHERE F.TASK_UNQ = T.TASK_UNQ
+             ) AS ATCH_FILE_BOOL
+            ,(SELECT ENTP_NM
+                FROM STT_ENTP_LST E
+                WHERE E.ENTP_UNQ = T.ENTP_UNQ
+             ) AS ENTP_NM
+        FROM STT_ENTP_TASK_LST T
+        WHERE 1=1
+            AND T.DEL_YN ='N'
+        <if test="entp_unq != null and entp_unq != ''">
+            AND T.ENTP_UNQ = #{entp_unq}
+        </if>
+        <if test="task_tp != null and task_tp != ''">
+            AND T.TASK_TP = #{task_tp}
+        </if>
+        <if test="task_st_dt != null and task_st_dt != ''">
+            AND T.TASK_ST_DT = #{task_st_dt}
+        </if>
+    </select>
+
     <select id="selectTaskMembList" resultType="TaskMembDTO">
         SELECT
              TASK_USR_UNQ

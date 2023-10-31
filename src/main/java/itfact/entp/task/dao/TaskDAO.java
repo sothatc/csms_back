@@ -33,4 +33,8 @@ public class TaskDAO {
         sqlSessionTemplate.insert(NAMESPACE + "insertTaskAtchInfo", taskAtchDTO);
         return taskAtchDTO.getAtch_file_unq();
     }
+
+    public List<TaskDTO> selectTaskList(TaskDTO taskDTO) {
+        return sqlSessionTemplate.selectList(NAMESPACE + "selectTaskList", taskDTO);
+    }
 }

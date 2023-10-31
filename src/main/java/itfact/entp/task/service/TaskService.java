@@ -13,4 +13,6 @@ public interface TaskService {
     List<TaskMembDTO> getTaskMembList();
 
     boolean setTaskInfo(TaskDTO taskDTO, List<MultipartFile> files);
+
+    List<TaskDTO> getTaskList(TaskDTO taskDTO);
 }
