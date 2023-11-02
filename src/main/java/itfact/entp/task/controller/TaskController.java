@@ -8,6 +8,7 @@ import itfact.common.response.enums.ResponseCode;
 import itfact.common.util.FileUtils;
 import itfact.common.util.ResponseUtil;
 import itfact.common.util.StringUtils;
+import itfact.entp.task.dto.TaskAtchDTO;
 import itfact.entp.task.dto.TaskDTO;
 import itfact.entp.task.dto.TaskMembDTO;
 import itfact.entp.task.service.TaskService;
@@ -77,5 +78,17 @@ public class TaskController {
         }
 
         return ResponseUtil.SUCCESS(ResponseCode.FAIL_SAVE);
+    }
+
+    @PostMapping("/getTaskDtlInfo")
+    public ResponseDTO getTaskDtlInfo(@RequestBody TaskDTO taskDTO) {
+        TaskAtchDTO taskAtchDTO = new TaskAtchDTO();
+
+        int task_unq = taskDTO.getTask_unq();
+        taskAtchDTO.setTask_unq(task_unq);
+
+
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH);
     }
 }
