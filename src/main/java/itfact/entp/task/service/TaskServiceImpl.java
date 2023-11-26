@@ -4,7 +4,6 @@ import itfact.common.file.dto.FileDTO;
 import itfact.common.file.service.FileService;
 import itfact.common.util.CommonConstant;
 import itfact.common.util.StringUtils;
-import itfact.entp.enterprise.dto.EnterpriseAtchDTO;
 import itfact.entp.task.dao.TaskDAO;
 import itfact.entp.task.dto.TaskAtchDTO;
 import itfact.entp.task.dto.TaskDTO;
@@ -40,11 +39,12 @@ public class TaskServiceImpl implements TaskService{
 
                 int taskNo = taskDAO.insertTaskInfo(taskDTO);
 
-                List<FileDTO> attachFileList = fileService.saveFile(files, CommonConstant.DEFAULT_UPLOAD_ENTERPRISE_DIR);
+                List<FileDTO> attachFileList = fileService.saveFile(files, CommonConstant.DEFAULT_UPLOAD_TASK_DIR);
 
                 for (FileDTO item : attachFileList) {
                     taskAtchDTO = new TaskAtchDTO();
-                    taskAtchDTO.setEntp_unq         (taskNo                 );
+                    taskAtchDTO.setTask_unq         (taskNo                    );
+                    taskAtchDTO.setEntp_unq         (taskDTO.getEntp_unq()     );
                     taskAtchDTO.setReg_usr_id       (taskDTO.getReg_usr_id()   );
                     taskAtchDTO.setChg_usr_id       (taskDTO.getChg_usr_id()   );
                     taskAtchDTO.setAtch_file_nm     (item.getAtch_file_nm()    );
@@ -54,6 +54,23 @@ public class TaskServiceImpl implements TaskService{
 
                     taskDAO.insertTaskAtchInfo(taskAtchDTO);
                 }
+            } else if (StringUtils.equals(taskDTO.getFlag(), "U")) {
+                taskDAO.updateTaskInfo(taskDTO);
+
+                if (StringUtils.isNotEmpty(taskDTO.getDelAtchFileNum())) {
+                    String delAtchFileNumList[] = taskDTO.getDelAtchFileNum().split(",");
+
+                    for (int i = 0; i < delAtchFileNumList.length; i++) {
+                        taskAtchDTO = new TaskAtchDTO();
+                        taskAtchDTO.setTask_unq(taskDTO.getTask_unq());
+                        taskAtchDTO.setAtch_file_unq(Integer.parseInt(delAtchFileNumList[i].trim()));
+                        taskAtchDTO.setChg_usr_id(taskDTO.getChg_usr_id());
+
+                        taskDAO.deleteTaskAtchFileInfo(taskAtchDTO);
+                    }
+                }
+
+                return true;
             }
 
         } catch (Exception e) {
@@ -63,4 +80,13 @@ public class TaskServiceImpl implements TaskService{
 
         return true;
     }
+
+    public TaskDTO getTaskInfo(int task_unq) {
+        return taskDAO.selectTaskInfo(task_unq);
+    }
+
+    public List<TaskAtchDTO> getTaskAtchList(TaskAtchDTO taskAtchDTO) {
+        return taskDAO.getTaskAtchList(taskAtchDTO);
+    }
+
 }

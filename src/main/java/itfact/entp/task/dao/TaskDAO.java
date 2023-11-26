@@ -37,4 +37,20 @@ public class TaskDAO {
     public List<TaskDTO> selectTaskList(TaskDTO taskDTO) {
         return sqlSessionTemplate.selectList(NAMESPACE + "selectTaskList", taskDTO);
     }
+
+    public TaskDTO selectTaskInfo(int task_unq) {
+        return sqlSessionTemplate.selectOne(NAMESPACE + "selectTaskInfo", task_unq);
+    }
+
+    public List<TaskAtchDTO> getTaskAtchList(TaskAtchDTO taskAtchDTO) {
+        return sqlSessionTemplate.selectList(NAMESPACE + "getTaskAtchList", taskAtchDTO);
+    }
+
+    public void updateTaskInfo(TaskDTO taskDTO) {
+        sqlSessionTemplate.update(NAMESPACE + "updateTaskInfo", taskDTO);
+    }
+
+    public void deleteTaskAtchFileInfo(TaskAtchDTO taskAtchDTO) {
+        sqlSessionTemplate.update(NAMESPACE + "deleteTaskAtchFileInfo", taskAtchDTO);
+    }
 }

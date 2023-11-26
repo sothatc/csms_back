@@ -12,12 +12,12 @@
         , E.STT_DAY_CNT
         , E.REG_DTM
         , (SELECT DISTINCT 'true'
-            FROM TBL_ENTP_ATCH_LST F
-            WHERE F.ENTP_UNQ = E.ENTP_UNQ
-          ) AS ATCH_FILE_BOOL
+        FROM TBL_ENTP_ATCH_LST F
+        WHERE F.ENTP_UNQ = E.ENTP_UNQ
+        ) AS ATCH_FILE_BOOL
         FROM STT_ENTP_LST E
         WHERE 1=1
-        AND E.DEL_YN = 'N'
+            AND E.DEL_YN = 'N'
         <if test="svc_tp != null and svc_tp != ''">
             AND E.SVC_TP = #{svc_tp}
         </if>
@@ -40,8 +40,8 @@
              ,REG_DTM
         FROM   STT_ENTP_LST
         WHERE  1=1
-          AND ENTP_UNQ = #{entp_unq}
-          AND DEL_YN = 'N'
+            AND ENTP_UNQ = #{entp_unq}
+            AND DEL_YN = 'N'
     </select>
 
     <select id="getEnterpriseCustListInfo" resultType="EnterpriseCustDTO" parameterType="EnterpriseDTO">
@@ -306,18 +306,18 @@
 
     <update id="deleteEnterpriseInfo" parameterType="EnterpriseDTO">
         UPDATE STT_ENTP_LST AS E
-            LEFT JOIN STT_CUST_LST AS C ON E.ENTP_UNQ = C.ENTP_UNQ
-            LEFT JOIN TBL_ENTP_ATCH_LST AS F ON E.ENTP_UNQ = F.ENTP_UNQ
-            SET
-                E.DEL_YN = 'Y'
-                    ,C.DEL_YN = 'Y'
-                    ,F.DEL_YN = 'Y'
-                    ,E.CHG_USR_ID = #{chg_usr_id}
-                    ,C.CHG_USR_ID = #{chg_usr_id}
-                    ,F.CHG_USR_ID = #{chg_usr_id}
-                    ,E.CHG_DTM = now()
-                    ,C.CHG_DTM = now()
-                    ,F.CHG_DTM = now()
+        LEFT JOIN STT_CUST_LST AS C ON E.ENTP_UNQ = C.ENTP_UNQ
+        LEFT JOIN TBL_ENTP_ATCH_LST AS F ON E.ENTP_UNQ = F.ENTP_UNQ
+        SET
+             E.DEL_YN = 'Y'
+            ,C.DEL_YN = 'Y'
+            ,F.DEL_YN = 'Y'
+            ,E.CHG_USR_ID = #{chg_usr_id}
+            ,C.CHG_USR_ID = #{chg_usr_id}
+            ,F.CHG_USR_ID = #{chg_usr_id}
+            ,E.CHG_DTM = now()
+            ,C.CHG_DTM = now()
+            ,F.CHG_DTM = now()
         WHERE
             E.ENTP_UNQ = #{entp_unq}
     </update>

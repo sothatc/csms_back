@@ -17,7 +17,6 @@ import itfact.entp.enterprise.dto.EnterpriseSvcDTO;
 import itfact.entp.enterprise.service.EnterpriseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.buf.UriUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
