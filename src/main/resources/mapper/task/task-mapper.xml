@@ -56,6 +56,12 @@
             TBL_TASK_USR_LST
     </select>
 
+    <select id="selectTaskScheduleList" resultType="TaskScheduleDTO" parameterType="String">
+        SELECT *
+        FROM TBL_TASK_SCHEDULE_LST
+        WHERE DATE_FORMAT(SCH_ST_DT, '%Y-%m') = #{requestedDate};
+    </select>
+
     <select id="selectTaskInfo" parameterType="TaskDTO" resultType="TaskDTO">
         SELECT
             TASK_UNQ
@@ -86,26 +92,26 @@
 
     <insert id="insertTaskInfo" parameterType="TaskDTO" useGeneratedKeys="true" keyProperty="task_unq">
         INSERT INTO STT_ENTP_TASK_LST (
-                                       CUST_UNQ
-                                      ,ENTP_UNQ
-                                      ,TASK_DEPT
-                                      ,TASK_USR_NM
-                                      ,TASK_TP
-                                      ,TASK_JOB_TP
-                                      ,SVC_EFC
-                                      ,TASK_ST_DT
-                                      ,TASK_ST_TM
-                                      ,TASK_ED_DT
-                                      ,TASK_ED_TM
-                                      ,TASK_MEMO
-                                      ,REG_DTM
-                                      ,STT_MONTH_TOTAL_CNT
-                                      ,STT_MONTH_S_CNT
-                                      ,STT_MONTH_F_CNT
-                                      ,STT_DAY_TOTAL_CNT
-                                      ,STT_DAY_S_CNT
-                                      ,STT_DAY_F_CNT
-                                      ,DEL_YN
+               CUST_UNQ
+              ,ENTP_UNQ
+              ,TASK_DEPT
+              ,TASK_USR_NM
+              ,TASK_TP
+              ,TASK_JOB_TP
+              ,SVC_EFC
+              ,TASK_ST_DT
+              ,TASK_ST_TM
+              ,TASK_ED_DT
+              ,TASK_ED_TM
+              ,TASK_MEMO
+              ,REG_DTM
+              ,STT_MONTH_TOTAL_CNT
+              ,STT_MONTH_S_CNT
+              ,STT_MONTH_F_CNT
+              ,STT_DAY_TOTAL_CNT
+              ,STT_DAY_S_CNT
+              ,STT_DAY_F_CNT
+              ,DEL_YN
         )
         VALUES(
                   #{cust_unq}

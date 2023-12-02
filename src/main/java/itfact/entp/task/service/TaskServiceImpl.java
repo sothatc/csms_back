@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -30,6 +31,10 @@ public class TaskServiceImpl implements TaskService{
 
     public List<TaskMembDTO> getTaskMembList() {
         return taskDAO.selectTaskMembList();
+    }
+
+    public List<TaskScheduleDTO> getTaskScheduleList(String requestedDate) {
+        return taskDAO.selectTaskScheduleList(requestedDate);
     }
 
     public boolean setTaskInfo(TaskDTO taskDTO, List<MultipartFile> files) {

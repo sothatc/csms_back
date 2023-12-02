@@ -7,6 +7,7 @@ import itfact.entp.task.dto.TaskMembDTO;
 import itfact.entp.task.dto.TaskScheduleDTO;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TaskService {
@@ -25,4 +26,6 @@ public interface TaskService {
     boolean deleteTaskInfo(TaskDTO taskDTO);
 
     boolean insertTaskScheduleInfo(TaskScheduleDTO taskScheduleDTO);
+
+    List<TaskScheduleDTO> getTaskScheduleList(String requestedDate);
 }

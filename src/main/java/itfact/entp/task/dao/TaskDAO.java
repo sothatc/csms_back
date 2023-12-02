@@ -8,6 +8,7 @@ import itfact.entp.task.dto.TaskScheduleDTO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -61,5 +62,9 @@ public class TaskDAO {
 
     public void insertTaskScheduleInfo(TaskScheduleDTO taskScheduleDTO) {
         sqlSessionTemplate.insert(NAMESPACE + "insertTaskScheduleInfo", taskScheduleDTO);
+    }
+
+    public List<TaskScheduleDTO> selectTaskScheduleList(String requestedDate) {
+        return sqlSessionTemplate.selectList(NAMESPACE + "selectTaskScheduleList", requestedDate);
     }
 }

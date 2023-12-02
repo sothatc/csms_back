@@ -32,6 +32,8 @@ import org.springframework.web.util.UriUtils;
 
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,6 +67,15 @@ public class TaskController {
         List<TaskMembDTO> taskMembList = taskService.getTaskMembList();
 
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, taskMembList);
+    }
+
+    @PostMapping("/getTaskScheduleList")
+    public ResponseDTO getTaskScheduleList(@RequestParam("sch_st_dt") String requestedDate) {
+
+
+        List<TaskScheduleDTO> taskScheduleList = taskService.getTaskScheduleList(requestedDate);
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, taskScheduleList);
     }
 
     @PostMapping("/setTaskInfo")
