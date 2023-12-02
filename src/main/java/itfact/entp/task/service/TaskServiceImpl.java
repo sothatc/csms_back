@@ -8,6 +8,7 @@ import itfact.entp.task.dao.TaskDAO;
 import itfact.entp.task.dto.TaskAtchDTO;
 import itfact.entp.task.dto.TaskDTO;
 import itfact.entp.task.dto.TaskMembDTO;
+import itfact.entp.task.dto.TaskScheduleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -87,6 +88,28 @@ public class TaskServiceImpl implements TaskService{
 
     public List<TaskAtchDTO> getTaskAtchList(TaskAtchDTO taskAtchDTO) {
         return taskDAO.getTaskAtchList(taskAtchDTO);
+    }
+
+    public boolean deleteTaskInfo(TaskDTO taskDTO) {
+        try {
+            taskDAO.deleteTaskInfo(taskDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean insertTaskScheduleInfo(TaskScheduleDTO taskScheduleDTO) {
+        try {
+            taskDAO.insertTaskScheduleInfo(taskScheduleDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
 }

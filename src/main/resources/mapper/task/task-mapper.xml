@@ -5,23 +5,23 @@
 
     <select id="selectTaskList" resultType="TaskDTO" parameterType="TaskDTO">
         SELECT
-             T.TASK_UNQ
-            ,T.ENTP_UNQ
-            ,T.CUST_UNQ
-            ,T.TASK_TP
-            ,T.TASK_JOB_TP
-            ,T.TASK_USR_NM
-            ,T.TASK_ST_DT
-            ,T.TASK_ED_DT
-            ,(SELECT DISTINCT 'true'
-                FROM TBL_TASK_ATCH_LST F
-                WHERE F.TASK_UNQ = T.TASK_UNQ
-             ) AS ATCH_FILE_BOOL
-            ,E.ENTP_NM
+        T.TASK_UNQ
+        ,T.ENTP_UNQ
+        ,T.CUST_UNQ
+        ,T.TASK_TP
+        ,T.TASK_JOB_TP
+        ,T.TASK_USR_NM
+        ,T.TASK_ST_DT
+        ,T.TASK_ED_DT
+        ,(SELECT DISTINCT 'true'
+        FROM TBL_TASK_ATCH_LST F
+        WHERE F.TASK_UNQ = T.TASK_UNQ
+        ) AS ATCH_FILE_BOOL
+        ,E.ENTP_NM
         FROM STT_ENTP_TASK_LST T
         LEFT JOIN STT_ENTP_LST E ON T.ENTP_UNQ = E.ENTP_UNQ
         WHERE 1=1
-            AND T.DEL_YN ='N'
+        AND T.DEL_YN ='N'
         <if test="entp_nm != null and entp_nm != ''">
             AND E.ENTP_NM LIKE CONCAT('%', #{entp_nm}, '%')
         </if>
@@ -31,46 +31,52 @@
         <if test="task_st_dt != null and task_st_dt != ''">
             AND T.TASK_ST_DT = #{task_st_dt}
         </if>
+
+        ORDER BY T.TASK_ST_DT DESC
+
+        <if test="limit_num != null and limit_num != ''">
+            LIMIT #{limit_num}
+        </if>
     </select>
 
     <select id="selectTaskMembList" resultType="TaskMembDTO">
         SELECT
-             TASK_USR_UNQ
-            ,TASK_DEPT
-            ,TASK_USR_NM
-            ,TASK_USR_PST_NM
-            ,TASK_USR_TEL
-            ,TASK_USR_EMAIL
-            ,REG_USR_ID
-            ,REG_DTM
-            ,CHG_USR_ID
-            ,CHG_DTM
-            ,DEL_YN
+            TASK_USR_UNQ
+             ,TASK_DEPT
+             ,TASK_USR_NM
+             ,TASK_USR_PST_NM
+             ,TASK_USR_TEL
+             ,TASK_USR_EMAIL
+             ,REG_USR_ID
+             ,REG_DTM
+             ,CHG_USR_ID
+             ,CHG_DTM
+             ,DEL_YN
         FROM
             TBL_TASK_USR_LST
     </select>
 
     <select id="selectTaskInfo" parameterType="TaskDTO" resultType="TaskDTO">
         SELECT
-             TASK_UNQ
-            ,ENTP_UNQ
-            ,CUST_UNQ
-            ,TASK_USR_UNQ
-            ,TASK_USR_NM
-            ,TASK_TP
-            ,TASK_ST_DT
-            ,TASK_ST_TM
-            ,TASK_ED_DT
-            ,TASK_ED_TM
-            ,TASK_JOB_TP
-            ,SVC_EFC
-            ,STT_MONTH_TOTAL_CNT
-            ,STT_MONTH_S_CNT
-            ,STT_MONTH_F_CNT
-            ,STT_DAY_TOTAL_CNT
-            ,STT_DAY_S_CNT
-            ,STT_DAY_F_CNT
-            ,TASK_MEMO
+            TASK_UNQ
+             ,ENTP_UNQ
+             ,CUST_UNQ
+             ,TASK_USR_UNQ
+             ,TASK_USR_NM
+             ,TASK_TP
+             ,TASK_ST_DT
+             ,TASK_ST_TM
+             ,TASK_ED_DT
+             ,TASK_ED_TM
+             ,TASK_JOB_TP
+             ,SVC_EFC
+             ,STT_MONTH_TOTAL_CNT
+             ,STT_MONTH_S_CNT
+             ,STT_MONTH_F_CNT
+             ,STT_DAY_TOTAL_CNT
+             ,STT_DAY_S_CNT
+             ,STT_DAY_F_CNT
+             ,TASK_MEMO
         FROM
             STT_ENTP_TASK_LST
         WHERE
@@ -80,49 +86,49 @@
 
     <insert id="insertTaskInfo" parameterType="TaskDTO" useGeneratedKeys="true" keyProperty="task_unq">
         INSERT INTO STT_ENTP_TASK_LST (
-             CUST_UNQ
-            ,ENTP_UNQ
-            ,TASK_DEPT
-            ,TASK_USR_NM
-            ,TASK_TP
-            ,TASK_JOB_TP
-            ,SVC_EFC
-            ,TASK_ST_DT
-            ,TASK_ST_TM
-            ,TASK_ED_DT
-            ,TASK_ED_TM
-            ,TASK_MEMO
-            ,REG_DTM
-            ,STT_MONTH_TOTAL_CNT
-            ,STT_MONTH_S_CNT
-            ,STT_MONTH_F_CNT
-            ,STT_DAY_TOTAL_CNT
-            ,STT_DAY_S_CNT
-            ,STT_DAY_F_CNT
-            ,DEL_YN
+                                       CUST_UNQ
+                                      ,ENTP_UNQ
+                                      ,TASK_DEPT
+                                      ,TASK_USR_NM
+                                      ,TASK_TP
+                                      ,TASK_JOB_TP
+                                      ,SVC_EFC
+                                      ,TASK_ST_DT
+                                      ,TASK_ST_TM
+                                      ,TASK_ED_DT
+                                      ,TASK_ED_TM
+                                      ,TASK_MEMO
+                                      ,REG_DTM
+                                      ,STT_MONTH_TOTAL_CNT
+                                      ,STT_MONTH_S_CNT
+                                      ,STT_MONTH_F_CNT
+                                      ,STT_DAY_TOTAL_CNT
+                                      ,STT_DAY_S_CNT
+                                      ,STT_DAY_F_CNT
+                                      ,DEL_YN
         )
         VALUES(
-             #{cust_unq}
-            ,#{entp_unq}
-            ,#{task_dept}
-            ,#{task_usr_nm}
-            ,#{task_tp}
-            ,#{task_job_tp}
-            ,#{svc_efc}
-            ,#{task_st_dt}
-            ,#{task_st_tm}
-            ,#{task_ed_dt}
-            ,#{task_ed_tm}
-            ,#{task_memo}
-            ,#{reg_dtm}
-            ,#{stt_month_total_cnt}
-            ,#{stt_month_s_cnt}
-            ,#{stt_month_f_cnt}
-            ,#{stt_day_total_cnt}
-            ,#{stt_day_s_cnt}
-            ,#{stt_day_f_cnt}
-            ,'N'
-        )
+                  #{cust_unq}
+              ,#{entp_unq}
+              ,#{task_dept}
+              ,#{task_usr_nm}
+              ,#{task_tp}
+              ,#{task_job_tp}
+              ,#{svc_efc}
+              ,#{task_st_dt}
+              ,#{task_st_tm}
+              ,#{task_ed_dt}
+              ,#{task_ed_tm}
+              ,#{task_memo}
+              ,#{reg_dtm}
+              ,#{stt_month_total_cnt}
+              ,#{stt_month_s_cnt}
+              ,#{stt_month_f_cnt}
+              ,#{stt_day_total_cnt}
+              ,#{stt_day_s_cnt}
+              ,#{stt_day_f_cnt}
+              ,'N'
+              )
     </insert>
 
     <insert id="insertTaskAtchInfo" parameterType="TaskAtchDTO" useGeneratedKeys="true" keyProperty="atch_file_unq">
@@ -141,28 +147,55 @@
             DEL_YN
         )
         VALUES (
-           #{task_unq},
-           #{entp_unq},
-           #{atch_file_nm},
-           #{atch_file_org_nm},
-           #{atch_file_path},
-           #{atch_file_size},
-           #{gnr_memo},
-           #{reg_usr_id},
-           now(),
-           #{chg_usr_id},
-           now(),
-           'N'
-        )
+                   #{task_unq},
+                   #{entp_unq},
+                   #{atch_file_nm},
+                   #{atch_file_org_nm},
+                   #{atch_file_path},
+                   #{atch_file_size},
+                   #{gnr_memo},
+                   #{reg_usr_id},
+                   now(),
+                   #{chg_usr_id},
+                   now(),
+                   'N'
+               )
+    </insert>
+
+    <insert id="insertTaskScheduleInfo" parameterType="TaskScheduleDTO" useGeneratedKeys="true" keyProperty="sch_unq">
+        INSERT INTO TBL_TASK_SCHEDULE_LST(
+              SCH_TITLE
+             ,SCH_CONTENTS
+             ,SCH_ST_DT
+             ,SCH_ED_DT
+             ,SCH_ST_TM
+             ,SCH_ED_TM
+             ,REG_DTM
+             ,REG_USR_ID
+--              ,CHG_DTM
+--              ,CHG_USR_ID
+)
+        VALUES (
+                #{sch_title}
+               ,#{sch_contents}
+               ,#{sch_st_dt}
+               ,#{sch_ed_dt}
+               ,#{sch_st_tm}
+               ,#{sch_ed_tm}
+               ,now()
+               ,#{reg_usr_id}
+--                ,now()
+--                ,#{chg_usr_id}
+               )
     </insert>
 
     <select id="getTaskAtchList" resultType="taskAtchDTO">
         SELECT
-            *
+        *
         FROM
-            TBL_TASK_ATCH_LST
+        TBL_TASK_ATCH_LST
         WHERE 1=1
-            AND DEL_YN = 'N'
+        AND DEL_YN = 'N'
         <if test="task_unq != null and task_unq != ''">
             AND TASK_UNQ = #{task_unq}
         </if>
@@ -175,25 +208,25 @@
         UPDATE
             STT_ENTP_TASK_LST
         SET
-             TASK_TP             = #{task_tp}
-            ,CUST_UNQ            = #{cust_unq}
-            ,TASK_USR_UNQ        = #{task_usr_unq}
-            ,TASK_USR_NM         = #{task_usr_nm}
-            ,TASK_ST_DT          = #{task_st_dt}
-            ,TASK_ST_TM          = #{task_st_tm}
-            ,TASK_ED_DT          = #{task_ed_dt}
-            ,TASK_ED_TM          = #{task_ed_tm}
-            ,TASK_JOB_TP         = #{task_job_tp}
-            ,SVC_EFC             = #{svc_efc}
-            ,TASK_MEMO           = #{task_memo}
-            ,STT_MONTH_TOTAL_CNT = #{stt_month_total_cnt}
-            ,STT_MONTH_S_CNT     = #{stt_month_s_cnt}
-            ,STT_MONTH_F_CNT     = #{stt_month_f_cnt}
-            ,STT_DAY_TOTAL_CNT   = #{stt_day_total_cnt}
-            ,STT_DAY_S_CNT       = #{stt_day_s_cnt}
-            ,STT_DAY_F_CNT       = #{stt_day_f_cnt}
-            ,CHG_USR_ID          = #{chg_usr_id}
-            ,CHG_DTM             = now()
+            TASK_TP             = #{task_tp}
+          ,CUST_UNQ            = #{cust_unq}
+          ,TASK_USR_UNQ        = #{task_usr_unq}
+          ,TASK_USR_NM         = #{task_usr_nm}
+          ,TASK_ST_DT          = #{task_st_dt}
+          ,TASK_ST_TM          = #{task_st_tm}
+          ,TASK_ED_DT          = #{task_ed_dt}
+          ,TASK_ED_TM          = #{task_ed_tm}
+          ,TASK_JOB_TP         = #{task_job_tp}
+          ,SVC_EFC             = #{svc_efc}
+          ,TASK_MEMO           = #{task_memo}
+          ,STT_MONTH_TOTAL_CNT = #{stt_month_total_cnt}
+          ,STT_MONTH_S_CNT     = #{stt_month_s_cnt}
+          ,STT_MONTH_F_CNT     = #{stt_month_f_cnt}
+          ,STT_DAY_TOTAL_CNT   = #{stt_day_total_cnt}
+          ,STT_DAY_S_CNT       = #{stt_day_s_cnt}
+          ,STT_DAY_F_CNT       = #{stt_day_f_cnt}
+          ,CHG_USR_ID          = #{chg_usr_id}
+          ,CHG_DTM             = now()
         WHERE
             TASK_UNQ = #{task_unq}
     </update>
@@ -202,11 +235,25 @@
         UPDATE
             TBL_TASK_ATCH_LST
         SET
-             DEL_YN     = "y"
-            ,CHG_USR_ID = #{chg_usr_id}
-            ,CHG_DTM    = now()
+            DEL_YN     = "y"
+          ,CHG_USR_ID = #{chg_usr_id}
+          ,CHG_DTM    = now()
         WHERE
             ATCH_FILE_UNQ = #{atch_file_unq}
+    </update>
+
+    <update id="deleteTaskInfo" parameterType="TaskDTO">
+        UPDATE STT_ENTP_TASK_LST AS T
+            LEFT JOIN TBL_TASK_ATCH_LST AS F ON T.TASK_UNQ = F.TASK_UNQ
+            SET
+                T.DEL_YN = 'Y'
+                    ,F.DEL_YN = 'Y'
+                    ,T.CHG_USR_ID = #{chg_usr_id}
+                    ,T.CHG_DTM = now()
+                    ,F.CHG_USR_ID = #{chg_usr_id}
+                    ,F.CHG_DTM = now()
+        WHERE
+            T.TASK_UNQ = #{task_unq}
     </update>
 
 </mapper>

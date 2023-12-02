@@ -15,6 +15,7 @@ import itfact.entp.enterprise.service.EnterpriseService;
 import itfact.entp.task.dto.TaskAtchDTO;
 import itfact.entp.task.dto.TaskDTO;
 import itfact.entp.task.dto.TaskMembDTO;
+import itfact.entp.task.dto.TaskScheduleDTO;
 import itfact.entp.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -142,4 +143,19 @@ public class TaskController {
 
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition).body(resource);
     }
+
+    @PostMapping("/deleteTaskInfo")
+    public ResponseDTO deleteTaskInfo(@RequestBody TaskDTO taskDTO) {
+        boolean result = taskService.deleteTaskInfo(taskDTO);
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
+    }
+
+    @PostMapping("/insertTaskScheduleInfo")
+    public ResponseDTO insertTaskScheduleInfo(@RequestBody TaskScheduleDTO taskScheduleDTO) {
+        boolean result = taskService.insertTaskScheduleInfo(taskScheduleDTO);
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE);
+    }
+
 }

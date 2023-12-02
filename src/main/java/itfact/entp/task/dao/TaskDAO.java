@@ -4,6 +4,7 @@ package itfact.entp.task.dao;
 import itfact.entp.task.dto.TaskAtchDTO;
 import itfact.entp.task.dto.TaskDTO;
 import itfact.entp.task.dto.TaskMembDTO;
+import itfact.entp.task.dto.TaskScheduleDTO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -52,5 +53,13 @@ public class TaskDAO {
 
     public void deleteTaskAtchFileInfo(TaskAtchDTO taskAtchDTO) {
         sqlSessionTemplate.update(NAMESPACE + "deleteTaskAtchFileInfo", taskAtchDTO);
+    }
+
+    public void deleteTaskInfo(TaskDTO taskDTO) {
+        sqlSessionTemplate.update(NAMESPACE + "deleteTaskInfo", taskDTO);
+    }
+
+    public void insertTaskScheduleInfo(TaskScheduleDTO taskScheduleDTO) {
+        sqlSessionTemplate.insert(NAMESPACE + "insertTaskScheduleInfo", taskScheduleDTO);
     }
 }

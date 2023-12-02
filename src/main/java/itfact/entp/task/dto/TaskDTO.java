@@ -10,6 +10,7 @@ public class TaskDTO {
     private int    task_unq;
     private int    entp_unq;
     private int    cust_unq;
+    private int    sch_unq;
     private String task_usr_unq;
     private String entp_nm;
     private String task_dept;
@@ -39,4 +40,6 @@ public class TaskDTO {
     private String flag;
 
     private boolean atch_file_bool;
+
+    private int    limit_num;
 }
