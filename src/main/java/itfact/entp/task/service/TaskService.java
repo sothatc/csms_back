@@ -1,13 +1,9 @@
 package itfact.entp.task.service;
 
 
-import itfact.entp.task.dto.TaskAtchDTO;
-import itfact.entp.task.dto.TaskDTO;
-import itfact.entp.task.dto.TaskMembDTO;
-import itfact.entp.task.dto.TaskScheduleDTO;
+import itfact.entp.task.dto.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface TaskService {
@@ -17,7 +13,7 @@ public interface TaskService {
 
     boolean setTaskInfo(TaskDTO taskDTO, List<MultipartFile> files);
 
-    List<TaskDTO> getTaskList(TaskDTO taskDTO);
+    List<TaskDTO> getTaskList(SearchTaskDTO reqDTO);
 
     TaskDTO getTaskInfo(int taskUnq);
 

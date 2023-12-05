@@ -1,14 +1,10 @@
 package itfact.entp.task.dao;
 
 
-import itfact.entp.task.dto.TaskAtchDTO;
-import itfact.entp.task.dto.TaskDTO;
-import itfact.entp.task.dto.TaskMembDTO;
-import itfact.entp.task.dto.TaskScheduleDTO;
+import itfact.entp.task.dto.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -36,8 +32,8 @@ public class TaskDAO {
         return taskAtchDTO.getAtch_file_unq();
     }
 
-    public List<TaskDTO> selectTaskList(TaskDTO taskDTO) {
-        return sqlSessionTemplate.selectList(NAMESPACE + "selectTaskList", taskDTO);
+    public List<TaskDTO> selectTaskList(SearchTaskDTO reqDTO) {
+        return sqlSessionTemplate.selectList(NAMESPACE + "selectTaskList", reqDTO);
     }
 
     public TaskDTO selectTaskInfo(int task_unq) {

@@ -3,7 +3,7 @@
 
 <mapper namespace="TaskDAO">
 
-    <select id="selectTaskList" resultType="TaskDTO" parameterType="TaskDTO">
+    <select id="selectTaskList" resultType="TaskDTO" parameterType="SearchTaskDTO">
         SELECT
         T.TASK_UNQ
         ,T.ENTP_UNQ
@@ -28,8 +28,8 @@
         <if test="task_tp != null and task_tp != ''">
             AND T.TASK_TP = #{task_tp}
         </if>
-        <if test="task_st_dt != null and task_st_dt != ''">
-            AND T.TASK_ST_DT = #{task_st_dt}
+        <if test="searchDateFrom != null and searchDateFrom != '' and searchDateTo != null and searchDateTo != ''">
+            AND T.TASK_ST_DT BETWEEN #{searchDateFrom} AND #{searchDateTo}
         </if>
 
         ORDER BY T.TASK_ST_DT DESC
@@ -37,6 +37,8 @@
         <if test="limit_num != null and limit_num != ''">
             LIMIT #{limit_num}
         </if>
+
+        <include refid="common.paging"/>
     </select>
 
     <select id="selectTaskMembList" resultType="TaskMembDTO">
@@ -92,26 +94,26 @@
 
     <insert id="insertTaskInfo" parameterType="TaskDTO" useGeneratedKeys="true" keyProperty="task_unq">
         INSERT INTO STT_ENTP_TASK_LST (
-               CUST_UNQ
-              ,ENTP_UNQ
-              ,TASK_DEPT
-              ,TASK_USR_NM
-              ,TASK_TP
-              ,TASK_JOB_TP
-              ,SVC_EFC
-              ,TASK_ST_DT
-              ,TASK_ST_TM
-              ,TASK_ED_DT
-              ,TASK_ED_TM
-              ,TASK_MEMO
-              ,REG_DTM
-              ,STT_MONTH_TOTAL_CNT
-              ,STT_MONTH_S_CNT
-              ,STT_MONTH_F_CNT
-              ,STT_DAY_TOTAL_CNT
-              ,STT_DAY_S_CNT
-              ,STT_DAY_F_CNT
-              ,DEL_YN
+                                       CUST_UNQ
+                                      ,ENTP_UNQ
+                                      ,TASK_DEPT
+                                      ,TASK_USR_NM
+                                      ,TASK_TP
+                                      ,TASK_JOB_TP
+                                      ,SVC_EFC
+                                      ,TASK_ST_DT
+                                      ,TASK_ST_TM
+                                      ,TASK_ED_DT
+                                      ,TASK_ED_TM
+                                      ,TASK_MEMO
+                                      ,REG_DTM
+                                      ,STT_MONTH_TOTAL_CNT
+                                      ,STT_MONTH_S_CNT
+                                      ,STT_MONTH_F_CNT
+                                      ,STT_DAY_TOTAL_CNT
+                                      ,STT_DAY_S_CNT
+                                      ,STT_DAY_F_CNT
+                                      ,DEL_YN
         )
         VALUES(
                   #{cust_unq}
@@ -178,9 +180,9 @@
              ,SCH_ED_TM
              ,REG_DTM
              ,REG_USR_ID
---              ,CHG_DTM
---              ,CHG_USR_ID
-)
+             ,CHG_DTM
+             ,CHG_USR_ID
+        )
         VALUES (
                 #{sch_title}
                ,#{sch_contents}
@@ -190,8 +192,8 @@
                ,#{sch_ed_tm}
                ,now()
                ,#{reg_usr_id}
---                ,now()
---                ,#{chg_usr_id}
+               ,NULL
+               ,#{chg_usr_id}
                )
     </insert>
 

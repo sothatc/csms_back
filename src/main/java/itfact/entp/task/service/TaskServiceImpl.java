@@ -5,15 +5,11 @@ import itfact.common.file.service.FileService;
 import itfact.common.util.CommonConstant;
 import itfact.common.util.StringUtils;
 import itfact.entp.task.dao.TaskDAO;
-import itfact.entp.task.dto.TaskAtchDTO;
-import itfact.entp.task.dto.TaskDTO;
-import itfact.entp.task.dto.TaskMembDTO;
-import itfact.entp.task.dto.TaskScheduleDTO;
+import itfact.entp.task.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,8 +21,8 @@ public class TaskServiceImpl implements TaskService{
     @Autowired
     private FileService fileService;
 
-    public List<TaskDTO> getTaskList(TaskDTO taskDTO) {
-        return taskDAO.selectTaskList(taskDTO);
+    public List<TaskDTO> getTaskList(SearchTaskDTO reqDTO) {
+        return taskDAO.selectTaskList(reqDTO);
     }
 
     public List<TaskMembDTO> getTaskMembList() {

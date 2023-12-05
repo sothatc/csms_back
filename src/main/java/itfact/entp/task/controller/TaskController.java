@@ -3,6 +3,7 @@ package itfact.entp.task.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import itfact.common.paging.service.PagingService;
 import itfact.common.response.dto.ResponseDTO;
 import itfact.common.response.enums.ResponseCode;
 import itfact.common.util.CommonConstant;
@@ -12,10 +13,7 @@ import itfact.common.util.StringUtils;
 import itfact.entp.enterprise.dto.EnterpriseCustDTO;
 import itfact.entp.enterprise.dto.EnterpriseDTO;
 import itfact.entp.enterprise.service.EnterpriseService;
-import itfact.entp.task.dto.TaskAtchDTO;
-import itfact.entp.task.dto.TaskDTO;
-import itfact.entp.task.dto.TaskMembDTO;
-import itfact.entp.task.dto.TaskScheduleDTO;
+import itfact.entp.task.dto.*;
 import itfact.entp.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +30,6 @@ import org.springframework.web.util.UriUtils;
 
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,16 +44,19 @@ public class TaskController {
 
     @Autowired
     private EnterpriseService enterpriseService;
+    @Autowired
+    private PagingService pagingService;
 
     @Value("${spring.servlet.multipart.location}")
     private String uploadPath;
 
     @PostMapping("/getTaskList")
-    public ResponseDTO getTaskList(@RequestBody TaskDTO taskDTO) {
-        List<TaskDTO> taskList = taskService.getTaskList(taskDTO);
+    public ResponseDTO getTaskList(@RequestBody SearchTaskDTO reqDTO) {
+        List<TaskDTO> taskList = taskService.getTaskList(reqDTO);
 
         HashMap<String, Object> taskListMap = new HashMap<>();
         taskListMap.put("taskList", taskList);
+        taskListMap.put("paging", pagingService.getPagingInfo(reqDTO.getPaging()));
 
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, taskListMap);
     }
@@ -71,8 +70,6 @@ public class TaskController {
 
     @PostMapping("/getTaskScheduleList")
     public ResponseDTO getTaskScheduleList(@RequestParam("sch_st_dt") String requestedDate) {
-
-
         List<TaskScheduleDTO> taskScheduleList = taskService.getTaskScheduleList(requestedDate);
 
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, taskScheduleList);

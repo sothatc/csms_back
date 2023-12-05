@@ -61,7 +61,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation group: 'org.apache.tika', name: 'tika-core', version: '2.9.0'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'mysql:mysql-connector-java, version: 8.0.28'
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
 }
 
 dependencyManagement {

@@ -41,5 +41,5 @@ public class TaskDTO {
 
     private boolean atch_file_bool;
 
-    private int    limit_num;
+//    private int    limit_num;
 }
