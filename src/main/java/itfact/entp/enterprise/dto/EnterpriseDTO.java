@@ -1,6 +1,7 @@
 package itfact.entp.enterprise.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import itfact.common.paging.dto.PagingDTO;
 import lombok.Data;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class EnterpriseDTO {
     private String flag;
     private List<EnterpriseDTO> enterpriseAtchList;
     private boolean atch_file_bool;
-//    private int atch_file_unq; //파일이 존재하는지만 조회 ( limit 1 )
+
+    private PagingDTO paging;
 
 }

@@ -4,7 +4,8 @@
 <mapper namespace="EnterpriseDAO">
 
     <select id="selectEnterpriseList" resultType="EnterpriseDTO" parameterType="EnterpriseDTO">
-        SELECT E.ENTP_UNQ
+        SELECT SQL_CALC_FOUND_ROWS
+          E.ENTP_UNQ
         , E.ENTP_TP
         , E.ENTP_NM
         , E.SVC_TP
@@ -27,6 +28,8 @@
         <if test="entp_nm != null and entp_nm != ''">
             AND E.ENTP_NM LIKE CONCAT('%', #{entp_nm}, '%')
         </if>
+
+        <include refid="common.paging"/>
     </select>
 
     <select id="selectEnterprise" resultType="EnterpriseDTO" parameterType="EnterpriseDTO">

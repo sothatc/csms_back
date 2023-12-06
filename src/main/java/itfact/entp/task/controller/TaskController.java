@@ -52,6 +52,7 @@ public class TaskController {
 
     @PostMapping("/getTaskList")
     public ResponseDTO getTaskList(@RequestBody SearchTaskDTO reqDTO) {
+
         List<TaskDTO> taskList = taskService.getTaskList(reqDTO);
 
         HashMap<String, Object> taskListMap = new HashMap<>();

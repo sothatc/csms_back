@@ -4,6 +4,7 @@ package itfact.entp.enterprise.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import itfact.common.paging.service.PagingService;
 import itfact.common.response.dto.ResponseDTO;
 import itfact.common.response.enums.ResponseCode;
 import itfact.common.util.CommonConstant;
@@ -41,6 +42,8 @@ public class EnterpriseController {
 
     @Autowired
     private EnterpriseService enterpriseService;
+    @Autowired
+    private PagingService pagingService;
 
     @Value("${spring.servlet.multipart.location}")
     private String uploadPath;
@@ -52,6 +55,7 @@ public class EnterpriseController {
 
         HashMap<String, Object> enterpriseMap = new HashMap<>();
         enterpriseMap.put("enterpriseList", enterpriseList);
+        enterpriseMap.put("paging", pagingService.getPagingInfo(reqDto.getPaging()));
 
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, enterpriseMap);
     }

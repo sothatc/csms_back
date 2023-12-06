@@ -5,7 +5,8 @@
 
     <select id="selectTaskList" resultType="TaskDTO" parameterType="SearchTaskDTO">
         SELECT
-        T.TASK_UNQ
+         SQL_CALC_FOUND_ROWS
+         T.TASK_UNQ
         ,T.ENTP_UNQ
         ,T.CUST_UNQ
         ,T.TASK_TP
@@ -37,8 +38,9 @@
         <if test="limit_num != null and limit_num != ''">
             LIMIT #{limit_num}
         </if>
-
-        <include refid="common.paging"/>
+        <if test="paging != null and paging != ''">
+            <include refid="common.paging"/>
+        </if>
     </select>
 
     <select id="selectTaskMembList" resultType="TaskMembDTO">
