@@ -14,6 +14,8 @@
         ,T.TASK_USR_NM
         ,T.TASK_ST_DT
         ,T.TASK_ED_DT
+        ,T.TASK_ST_TM
+        ,T.TASK_ED_TM
         ,T.REG_DTM
         ,(SELECT DISTINCT 'true'
         FROM TBL_TASK_ATCH_LST F
