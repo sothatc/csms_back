@@ -8,7 +8,7 @@ import lombok.Data;
 public class TaskDTO {
 
     private int    task_unq;
-    private int    entp_unq;
+    private String entp_unq;
     private int    cust_unq;
     private int    sch_unq;
     private String task_usr_unq;

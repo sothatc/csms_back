@@ -11,14 +11,13 @@ import java.util.List;
 public interface EnterpriseService {
     public List<EnterpriseDTO> getEnterpriseList(EnterpriseDTO reqDTO);
 
-    //    public boolean setEnterpriseInfo(EnterpriseDTO reqDTO, List<MultipartFile> files);
     public boolean setEnterpriseInfo(EnterpriseDTO enterpriseDTO, EnterpriseCustDTO enterpriseCustDTO, List<MultipartFile> files, List<EnterpriseSvcDTO> enterpriseSvcDTOList);
 
-    public EnterpriseDTO getEnterprise(int reqDTO);
+    public EnterpriseDTO getEnterprise(String reqDTO);
 
-    public List<EnterpriseCustDTO> getEnterpriseCustListInfo(int entp_unq);
+    public List<EnterpriseCustDTO> getEnterpriseCustListInfo(String entp_unq);
 
-    public List<EnterpriseSvcDTO> getEnterpriseSvcListInfo(int entpUnq);
+    public List<EnterpriseSvcDTO> getEnterpriseSvcListInfo(String entpUnq);
 
     public List<EnterpriseAtchDTO> getEnterpriseAtchList(EnterpriseAtchDTO enterpriseAtchDTO);
 

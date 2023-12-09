@@ -9,7 +9,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EnterpriseAtchDTO {
     private int    atch_file_unq;
-    private int    entp_unq;
+    private String entp_unq;
     private String atch_file_nm;
     private String atch_file_org_nm;
     private String atch_file_path;

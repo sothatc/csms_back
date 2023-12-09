@@ -92,10 +92,15 @@
           AND DEL_YN = 'N'
     </select>
 
-    <insert id="insertEnterpriseInfo" parameterType="EnterpriseDTO" useGeneratedKeys="true" keyProperty="entp_unq">
+<!--    <insert id="insertEnterpriseInfo" parameterType="EnterpriseDTO" useGeneratedKeys="true" keyProperty="entp_unq">-->
+    <insert id="insertEnterpriseInfo" parameterType="EnterpriseDTO">
         INSERT INTO STT_ENTP_LST(
+            ENTP_UNQ,
             ENTP_TP,
             ENTP_NM,
+            PRESIDENT_NM,
+            SOLUTION_TP,
+            ESTABLISHED_DT,
             SVC_TP,
             STT_MONTH_CNT,
             STT_DAY_CNT,
@@ -107,17 +112,21 @@
             DEL_YN
         )
         VALUES(
-                  #{entp_tp},
-                  #{entp_nm},
-                  #{svc_tp},
-                  #{stt_month_cnt},
-                  #{stt_day_cnt},
-                  #{gnr_memo},
-                  #{reg_usr_id},
-                  now(),
-                  #{chg_usr_id},
-                  now(),
-                  'N'
+              #{entp_unq},
+              #{entp_tp},
+              #{entp_nm},
+              #{president_nm},
+              #{solution_tp},
+              #{established_dt},
+              #{svc_tp},
+              #{stt_month_cnt},
+              #{stt_day_cnt},
+              #{gnr_memo},
+              #{reg_usr_id},
+              now(),
+              #{chg_usr_id},
+              now(),
+              'N'
               )
     </insert>
 

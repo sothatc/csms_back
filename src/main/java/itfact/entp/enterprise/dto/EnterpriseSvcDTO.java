@@ -7,7 +7,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EnterpriseSvcDTO {
     private int    svr_unq;
-    private int    entp_unq;      // 업체 PK
+    private String entp_unq;      // 업체 PK
     private String svr_hst;       // 서버 호스트
     private String svr_ip;        // 서버ip
     private String svr_cont;      // 서버용도

@@ -22,10 +22,10 @@ public class EnterpriseDAO {
         return sqlSessionTemplate.selectList(NAMESPACE + "selectEnterpriseList", enterpriseDTO);
     }
 
-    public EnterpriseDTO selectEnterprise(int entp_unq) {
+    public EnterpriseDTO selectEnterprise(String entp_unq) {
         return sqlSessionTemplate.selectOne(NAMESPACE + "selectEnterprise", entp_unq);
     }
-    public List<EnterpriseCustDTO> getEnterpriseCustListInfo(int entpUnq) {
+    public List<EnterpriseCustDTO> getEnterpriseCustListInfo(String entpUnq) {
         return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseCustListInfo", entpUnq);
     }
 
@@ -33,7 +33,7 @@ public class EnterpriseDAO {
         return sqlSessionTemplate.selectOne(NAMESPACE + "getEnterpriseCustOneInfo", custUnq);
     }
 
-    public List<EnterpriseSvcDTO> getEnterpriseSvcListInfo(int entpUnq) {
+    public List<EnterpriseSvcDTO> getEnterpriseSvcListInfo(String entpUnq) {
         return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseSvcListInfo", entpUnq);
     }
 
@@ -41,7 +41,7 @@ public class EnterpriseDAO {
         return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseAtchList", enterpriseAtchDTO);
     }
 
-    public int insertEnterpriseInfo(EnterpriseDTO enterpriseDTO) {
+    public String insertEnterpriseInfo(EnterpriseDTO enterpriseDTO) {
         sqlSessionTemplate.insert(NAMESPACE + "insertEnterpriseInfo", enterpriseDTO);
         return enterpriseDTO.getEntp_unq();
     }

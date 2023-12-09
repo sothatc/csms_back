@@ -41,6 +41,11 @@ aes256:
   algorithm: AES
   encoding:
     charset: UTF-8
+
+apikey:
+  # 사업자등록 번호 조회 API Key (yml 암호화 가능)
+  clientkey: WFpXHChn9E6wSTgXW%2FyJ0ELJY2HFpmx79hPFVEBwiFAzJZmLnFzIeRlH8YPwLd42%2B5%2F21fx2sF4rGUjIbGLFMA%3D%3D
+
 logging:
   level:
     com.zaxxer.hikari.HikariConfig: DEBUG

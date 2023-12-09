@@ -9,8 +9,11 @@ import java.util.List;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EnterpriseDTO {
-    private int    entp_unq;
+    private String entp_unq;
     private String entp_tp;
+    private String solution_tp;
+    private String president_nm;
+    private String established_dt;
     private String entp_nm;
     private String svc_tp;
     private String gnr_memo;

@@ -35,11 +35,11 @@ public class EnterpriseServiceImpl implements EnterpriseService {
         return enterpriseDAO.selectEnterpriseList(enterpriseDTO);
     }
 
-    public EnterpriseDTO getEnterprise(int entp_unq) {
+    public EnterpriseDTO getEnterprise(String entp_unq) {
         return enterpriseDAO.selectEnterprise(entp_unq);
     }
 
-    public List<EnterpriseCustDTO> getEnterpriseCustListInfo(int entp_unq) {
+    public List<EnterpriseCustDTO> getEnterpriseCustListInfo(String entp_unq) {
         return enterpriseDAO.getEnterpriseCustListInfo(entp_unq);
     }
 
@@ -47,7 +47,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
         return enterpriseDAO.getEnterpriseCustOneInfo(custUnq);
     }
 
-    public List<EnterpriseSvcDTO> getEnterpriseSvcListInfo(int entp_unq) {
+    public List<EnterpriseSvcDTO> getEnterpriseSvcListInfo(String entp_unq) {
         return enterpriseDAO.getEnterpriseSvcListInfo(entp_unq);
     }
 
@@ -62,7 +62,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 
             if (StringUtils.equals(enterpriseDTO.getFlag(), "I")) { //신규저장
 
-                int enterpriseNo = enterpriseDAO.insertEnterpriseInfo(enterpriseDTO);
+                String enterpriseNo = enterpriseDAO.insertEnterpriseInfo(enterpriseDTO);
 
                 enterpriseCustDTO.setEntp_unq(enterpriseNo);
                 enterpriseCustDTO.setEntp_tp(enterpriseDTO.getEntp_tp());
