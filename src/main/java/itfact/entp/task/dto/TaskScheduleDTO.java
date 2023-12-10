@@ -8,7 +8,8 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TaskScheduleDTO {
 
-    private int sch_unq;
+    private int   sch_unq;
+    private String entp_unq;
     private String sch_title;
     private String sch_contents;
     private String sch_st_dt;
