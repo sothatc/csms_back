@@ -54,7 +54,7 @@ public class EnterpriseController {
 
     @PostMapping("/getEnterpriseList")
     public ResponseDTO getEnterpriseList(@RequestBody EnterpriseDTO reqDto) {
-
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@reqDto = " + reqDto);
         List<EnterpriseDTO> enterpriseList = enterpriseService.getEnterpriseList(reqDto);
 //        String corRegNum = corRegNumberService.getBusinessRegistrationInfo(reqDto.getEntp_unq());
 

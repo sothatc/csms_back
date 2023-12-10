@@ -6,6 +6,7 @@
     <select id="selectEnterpriseList" resultType="EnterpriseDTO" parameterType="EnterpriseDTO">
         SELECT SQL_CALC_FOUND_ROWS
           E.ENTP_UNQ
+        , E.SOLUTION_TP
         , E.ENTP_TP
         , E.ENTP_NM
         , E.SVC_TP
@@ -27,6 +28,9 @@
         </if>
         <if test="entp_nm != null and entp_nm != ''">
             AND E.ENTP_NM LIKE CONCAT('%', #{entp_nm}, '%')
+        </if>
+        <if test="solution_tp != null and solution_tp != ''">
+            AND E.SOLUTION_TP = #{solution_tp}
         </if>
 
         <include refid="common.paging"/>
@@ -98,9 +102,7 @@
             ENTP_UNQ,
             ENTP_TP,
             ENTP_NM,
-            PRESIDENT_NM,
             SOLUTION_TP,
-            ESTABLISHED_DT,
             SVC_TP,
             STT_MONTH_CNT,
             STT_DAY_CNT,
@@ -115,9 +117,7 @@
               #{entp_unq},
               #{entp_tp},
               #{entp_nm},
-              #{president_nm},
               #{solution_tp},
-              #{established_dt},
               #{svc_tp},
               #{stt_month_cnt},
               #{stt_day_cnt},
