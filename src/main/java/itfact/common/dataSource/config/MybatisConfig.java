@@ -26,17 +26,6 @@ public class MybatisConfig {
     @Autowired
     ApplicationContext applicationContext;
 
-//    @Bean
-//    @ConfigurationProperties(prefix = "spring.datasource.hikari")
-//    public HikariConfig hikariConfig() {
-//        return new HikariConfig();
-//    }
-//
-//    @Bean
-//    public DataSource dataSource() {
-//        return new HikariDataSource(hikariConfig());
-//    }
-
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
 
@@ -57,8 +46,4 @@ public class MybatisConfig {
         return sqlSessionTemplate;
     }
 
-    @Bean(name = "restTemplate")
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
 }

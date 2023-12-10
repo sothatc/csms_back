@@ -19,5 +19,6 @@ public class TaskScheduleDTO {
     private String reg_usr_id;
     private String chg_dtm;
     private String chg_usr_id;
+    private String finished_yn;
 
 }

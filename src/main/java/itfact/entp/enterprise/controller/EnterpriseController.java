@@ -15,7 +15,6 @@ import itfact.entp.enterprise.dto.EnterpriseAtchDTO;
 import itfact.entp.enterprise.dto.EnterpriseCustDTO;
 import itfact.entp.enterprise.dto.EnterpriseDTO;
 import itfact.entp.enterprise.dto.EnterpriseSvcDTO;
-import itfact.entp.enterprise.service.CorRegNumberService;
 import itfact.entp.enterprise.service.EnterpriseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,9 +45,6 @@ public class EnterpriseController {
     @Autowired
     private PagingService pagingService;
 
-    @Autowired
-    private CorRegNumberService corRegNumberService;
-
     @Value("${spring.servlet.multipart.location}")
     private String uploadPath;
 
@@ -56,7 +52,6 @@ public class EnterpriseController {
     public ResponseDTO getEnterpriseList(@RequestBody EnterpriseDTO reqDto) {
 
         List<EnterpriseDTO> enterpriseList = enterpriseService.getEnterpriseList(reqDto);
-//        String corRegNum = corRegNumberService.getBusinessRegistrationInfo(reqDto.getEntp_unq());
 
         HashMap<String, Object> enterpriseMap = new HashMap<>();
         enterpriseMap.put("enterpriseList", enterpriseList);
