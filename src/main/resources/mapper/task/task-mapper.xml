@@ -99,29 +99,29 @@
 
     <insert id="insertTaskInfo" parameterType="TaskDTO" useGeneratedKeys="true" keyProperty="task_unq">
         INSERT INTO STT_ENTP_TASK_LST (
-                                       CUST_UNQ
-                                      ,ENTP_UNQ
-                                      ,TASK_DEPT
-                                      ,TASK_USR_NM
-                                      ,TASK_TP
-                                      ,TASK_JOB_TP
-                                      ,SVC_EFC
-                                      ,TASK_ST_DT
-                                      ,TASK_ST_TM
-                                      ,TASK_ED_DT
-                                      ,TASK_ED_TM
-                                      ,TASK_MEMO
-                                      ,REG_DTM
-                                      ,STT_MONTH_TOTAL_CNT
-                                      ,STT_MONTH_S_CNT
-                                      ,STT_MONTH_F_CNT
-                                      ,STT_DAY_TOTAL_CNT
-                                      ,STT_DAY_S_CNT
-                                      ,STT_DAY_F_CNT
-                                      ,DEL_YN
-        )
+               CUST_UNQ
+              ,ENTP_UNQ
+              ,TASK_DEPT
+              ,TASK_USR_NM
+              ,TASK_TP
+              ,TASK_JOB_TP
+              ,SVC_EFC
+              ,TASK_ST_DT
+              ,TASK_ST_TM
+              ,TASK_ED_DT
+              ,TASK_ED_TM
+              ,TASK_MEMO
+              ,REG_DTM
+              ,STT_MONTH_TOTAL_CNT
+              ,STT_MONTH_S_CNT
+              ,STT_MONTH_F_CNT
+              ,STT_DAY_TOTAL_CNT
+              ,STT_DAY_S_CNT
+              ,STT_DAY_F_CNT
+              ,DEL_YN
+)
         VALUES(
-                  #{cust_unq}
+                #{cust_unq}
               ,#{entp_unq}
               ,#{task_dept}
               ,#{task_usr_nm}
@@ -133,7 +133,7 @@
               ,#{task_ed_dt}
               ,#{task_ed_tm}
               ,#{task_memo}
-              ,#{reg_dtm}
+              ,now()
               ,#{stt_month_total_cnt}
               ,#{stt_month_s_cnt}
               ,#{stt_month_f_cnt}
@@ -160,24 +160,25 @@
             DEL_YN
         )
         VALUES (
-                   #{task_unq},
-                   #{entp_unq},
-                   #{atch_file_nm},
-                   #{atch_file_org_nm},
-                   #{atch_file_path},
-                   #{atch_file_size},
-                   #{gnr_memo},
-                   #{reg_usr_id},
-                   now(),
-                   #{chg_usr_id},
-                   now(),
-                   'N'
+               #{task_unq},
+               #{entp_unq},
+               #{atch_file_nm},
+               #{atch_file_org_nm},
+               #{atch_file_path},
+               #{atch_file_size},
+               #{gnr_memo},
+               #{reg_usr_id},
+               now(),
+               #{chg_usr_id},
+               now(),
+               'N'
                )
     </insert>
 
     <insert id="insertTaskScheduleInfo" parameterType="TaskScheduleDTO" useGeneratedKeys="true" keyProperty="sch_unq">
         INSERT INTO TBL_TASK_SCHEDULE_LST(
-              SCH_TITLE
+              ENTP_UNQ
+             ,SCH_TITLE
              ,SCH_CONTENTS
              ,SCH_ST_DT
              ,SCH_ED_DT
@@ -189,7 +190,8 @@
              ,CHG_USR_ID
         )
         VALUES (
-                #{sch_title}
+                #{entp_unq}
+               ,#{sch_title}
                ,#{sch_contents}
                ,#{sch_st_dt}
                ,#{sch_ed_dt}
