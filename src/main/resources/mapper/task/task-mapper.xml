@@ -271,4 +271,20 @@
             T.TASK_UNQ = #{task_unq}
     </update>
 
+    <update id="updateTaskScheduleInfo" parameterType="TaskScheduleDTO">
+        UPDATE
+            TBL_TASK_SCHEDULE_LST
+        SET
+             SCH_TITLE    = #{sch_title}
+            ,SCH_CONTENTS = #{sch_contents}
+            ,SCH_ST_DT    = #{sch_st_dt}
+            ,SCH_ED_DT    = #{sch_ed_dt}
+            ,SCH_ST_TM    = #{sch_st_tm}
+            ,SCH_ED_TM    = #{sch_ed_tm}
+            ,CHG_DTM      = now()
+            ,CHG_USR_ID   = #{chg_usr_id}
+        WHERE
+            SCH_UNQ = #{sch_unq}
+    </update>
+
 </mapper>

@@ -160,11 +160,23 @@ public class TaskController {
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
     }
 
-    @PostMapping("/insertTaskScheduleInfo")
+    @PostMapping("/setTaskScheduleInfo")
     public ResponseDTO insertTaskScheduleInfo(@RequestBody TaskScheduleDTO taskScheduleDTO) {
-        boolean result = taskService.insertTaskScheduleInfo(taskScheduleDTO);
+        boolean result = taskService.setTaskScheduleInfo(taskScheduleDTO);
 
-        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE);
+        if (result) {
+            if (StringUtils.equals(taskScheduleDTO.getFlag(), "I") || StringUtils.equals(taskScheduleDTO.getFlag(), "S")) {
+                return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE);
+            } else if (StringUtils.equals(taskScheduleDTO.getFlag(), "U")) {
+                return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_UPDATE);
+            } else if (StringUtils.equals(taskScheduleDTO.getFlag(), "D")) {
+                return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
+            }
+        }
+
+        return ResponseUtil.SUCCESS(ResponseCode.FAIL_SAVE);
     }
+
+
 
 }

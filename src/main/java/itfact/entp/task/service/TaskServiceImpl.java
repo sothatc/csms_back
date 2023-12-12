@@ -102,9 +102,14 @@ public class TaskServiceImpl implements TaskService{
         return true;
     }
 
-    public boolean insertTaskScheduleInfo(TaskScheduleDTO taskScheduleDTO) {
+    public boolean setTaskScheduleInfo(TaskScheduleDTO taskScheduleDTO) {
         try {
-            taskDAO.insertTaskScheduleInfo(taskScheduleDTO);
+
+            if (StringUtils.equals(taskScheduleDTO.getFlag(), "I")) { //신규저장
+                taskDAO.insertTaskScheduleInfo(taskScheduleDTO);
+            } else if (StringUtils.equals(taskScheduleDTO.getFlag(), "U")) {
+                taskDAO.updateTaskScheduleInfo(taskScheduleDTO);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;

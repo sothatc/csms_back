@@ -21,7 +21,7 @@ public interface TaskService {
 
     boolean deleteTaskInfo(TaskDTO taskDTO);
 
-    boolean insertTaskScheduleInfo(TaskScheduleDTO taskScheduleDTO);
+    boolean setTaskScheduleInfo(TaskScheduleDTO taskScheduleDTO);
 
     List<TaskScheduleDTO> getTaskScheduleList(String requestedDate);
 }

@@ -22,4 +22,6 @@ public class TaskScheduleDTO {
     private String chg_usr_id;
     private String finished_yn;
 
+    private String flag;
+
 }
