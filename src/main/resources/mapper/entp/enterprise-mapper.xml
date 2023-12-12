@@ -38,6 +38,7 @@
 
     <select id="selectEnterprise" resultType="EnterpriseDTO" parameterType="EnterpriseDTO">
         SELECT ENTP_UNQ
+             ,SOLUTION_TP
              ,ENTP_TP
              ,ENTP_NM
              ,SVC_TP
