@@ -63,8 +63,13 @@ public class TaskDAO {
     public List<TaskScheduleDTO> selectTaskScheduleList(String requestedDate) {
         return sqlSessionTemplate.selectList(NAMESPACE + "selectTaskScheduleList", requestedDate);
     }
+    public TaskScheduleDTO selectMappingTaskSchedule(TaskScheduleDTO taskScheduleDTO) {
+        return sqlSessionTemplate.select(NAMESPACE + "selectMappingTaskSchedule", taskScheduleDTO);
+    }
+
 
     public void updateTaskScheduleInfo(TaskScheduleDTO taskScheduleDTO) {
         sqlSessionTemplate.update(NAMESPACE + "updateTaskScheduleInfo", taskScheduleDTO);
     }
+
 }

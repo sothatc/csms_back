@@ -64,9 +64,42 @@
     </select>
 
     <select id="selectTaskScheduleList" resultType="TaskScheduleDTO" parameterType="String">
-        SELECT *
+        SELECT
+             SCH_UNQ
+            ,ENTP_UNQ
+            ,SCH_TITLE
+            ,SCH_CONTENTS
+            ,SCH_ST_DT
+            ,SCH_ED_DT
+            ,SCH_ST_TM
+            ,SCH_ED_TM
+            ,REG_DTM
+            ,REG_USR_ID
+            ,CHG_DTM
+            ,CHG_USR_ID
         FROM TBL_TASK_SCHEDULE_LST
         WHERE DATE_FORMAT(SCH_ST_DT, '%Y-%m') = #{requestedDate};
+    </select>
+
+    <select id="selectMappingTaskSchedule" resultType="TaskScheduleDTO" parameterType="TaskScheduleDTO">
+        SELECT
+             SCH_UNQ
+            ,ENTP_UNQ
+            ,SCH_TITLE
+            ,SCH_CONTENTS
+            ,SCH_ST_DT
+            ,SCH_ED_DT
+            ,SCH_ST_TM
+            ,SCH_ED_TM
+            ,REG_DTM
+            ,REG_USR_ID
+            ,CHG_DTM
+            ,CHG_USR_ID
+        FROM
+            TBL_TASK_SCHEDULE_LST
+        WHERE 1=1
+            AND SCH_ST_DT = #{sch_st_dt}
+            AND ENTP_UNQ  = #{entp_unq}
     </select>
 
     <select id="selectTaskInfo" parameterType="TaskDTO" resultType="TaskDTO">
@@ -92,8 +125,7 @@
              ,TASK_MEMO
         FROM
             STT_ENTP_TASK_LST
-        WHERE
-            1 = 1
+        WHERE 1 = 1
           AND TASK_UNQ = #{task_unq}
     </select>
 

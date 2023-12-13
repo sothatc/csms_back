@@ -24,4 +24,8 @@ public interface TaskService {
     boolean setTaskScheduleInfo(TaskScheduleDTO taskScheduleDTO);
 
     List<TaskScheduleDTO> getTaskScheduleList(String requestedDate);
+
+    TaskScheduleDTO getMappingTaskToScheduleAPI(TaskScheduleDTO taskScheduleDTO);
+
+    boolean setConfirmedSchedule(TaskScheduleDTO taskSchedule);
 }

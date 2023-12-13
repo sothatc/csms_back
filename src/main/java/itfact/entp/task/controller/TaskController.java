@@ -76,6 +76,14 @@ public class TaskController {
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, taskScheduleList);
     }
 
+    @PostMapping("/setConfirmedSchedule")
+    public ResponseDTO setConfirmedSchedule(@RequestBody TaskScheduleDTO taskScheduleDTO) {
+        TaskScheduleDTO taskSchedule = taskService.getMappingTaskToScheduleAPI(taskScheduleDTO);
+
+        boolean result = taskService.setConfirmedSchedule(taskSchedule);
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_UPDATE, taskSchedule);
+    }
+
     @PostMapping("/setTaskInfo")
     public ResponseDTO setTaskInfo(@RequestParam(value = "taskData") String taskData, @RequestParam(value="files", required = false)List<MultipartFile> files) throws JsonProcessingException {
 

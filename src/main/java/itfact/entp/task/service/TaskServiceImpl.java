@@ -33,6 +33,14 @@ public class TaskServiceImpl implements TaskService{
         return taskDAO.selectTaskScheduleList(requestedDate);
     }
 
+    public TaskScheduleDTO getMappingTaskToScheduleAPI(TaskScheduleDTO taskScheduleDTO) {
+        return taskDAO.selectMappingTaskSchedule(taskScheduleDTO);
+    }
+
+    public boolean setConfirmedSchedule(TaskScheduleDTO taskSchedule) {
+//        taskDAO.setConfirmedSchedule(taskSchedule);
+    }
+
     public boolean setTaskInfo(TaskDTO taskDTO, List<MultipartFile> files) {
         try {
             TaskAtchDTO taskAtchDTO;
