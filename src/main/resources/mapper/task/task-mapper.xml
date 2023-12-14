@@ -77,6 +77,7 @@
             ,REG_USR_ID
             ,CHG_DTM
             ,CHG_USR_ID
+            ,FINISHED_YN
         FROM TBL_TASK_SCHEDULE_LST
         WHERE DATE_FORMAT(SCH_ST_DT, '%Y-%m') = #{requestedDate};
     </select>
@@ -319,4 +320,12 @@
             SCH_UNQ = #{sch_unq}
     </update>
 
+    <update id="updateConfirmSchedule" parameterType="TaskScheduleDTO">
+        UPDATE
+            TBL_TASK_SCHEDULE_LST
+        SET
+            FINISHED_YN = 'Y'
+        WHERE
+            SCH_UNQ = #{sch_unq}
+    </update>
 </mapper>

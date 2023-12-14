@@ -81,7 +81,7 @@ public class TaskController {
         TaskScheduleDTO taskSchedule = taskService.getMappingTaskToScheduleAPI(taskScheduleDTO);
 
         boolean result = taskService.setConfirmedSchedule(taskSchedule);
-        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_UPDATE, taskSchedule);
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_UPDATE, result);
     }
 
     @PostMapping("/setTaskInfo")

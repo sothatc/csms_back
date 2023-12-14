@@ -38,7 +38,14 @@ public class TaskServiceImpl implements TaskService{
     }
 
     public boolean setConfirmedSchedule(TaskScheduleDTO taskSchedule) {
-//        taskDAO.setConfirmedSchedule(taskSchedule);
+        try {
+            taskDAO.updateConfirmSchedule(taskSchedule);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     public boolean setTaskInfo(TaskDTO taskDTO, List<MultipartFile> files) {
