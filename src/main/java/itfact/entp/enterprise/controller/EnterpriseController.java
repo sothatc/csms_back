@@ -189,4 +189,9 @@ public class EnterpriseController {
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
     }
 
+    @PostMapping("/insertSystemInfo")
+    public ResponseDTO insertSystemInfo(@RequestBody EnterpriseSvcDTO enterpriseSvcDTO) {
+        boolean result =
+    }
+
 }
