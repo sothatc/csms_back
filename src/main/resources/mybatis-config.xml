@@ -16,12 +16,16 @@
         <typeAlias type="java.util.HashMap" alias="HashMap"/>
         <typeAlias type="java.util.List" alias="List"/>
         <typeAlias type="itfact.entp.enterprise.dto.EnterpriseDTO" alias="EnterpriseDTO"/>
+        <typeAlias type="itfact.entp.enterprise.dto.EnterpriseSvrDTO" alias="EnterpriseSvrDTO"/>
         <typeAlias type="itfact.entp.task.dto.TaskMembDTO" alias="TaskMembDTO"/>
+        <typeAlias type="itfact.main.user.dto.UserDTO" alias="UserDTO"/>
 
     </typeAliases>
 
     <mappers>
-        <!--        <mapper resource="resources/mapper/common-mapper.xml"/>-->
+        <mapper resource="resources/mapper/common-mapper.xml"/>
         <mapper resource="resources/mapper/entp/enterprise-mapper.xml"/>
+        <mapper resource="resources/mapper/task/task-mapper.xml"/>
+        <mapper resource="resources/mapper/user/user-mapper.xml"/>
     </mappers>
 </configuration>

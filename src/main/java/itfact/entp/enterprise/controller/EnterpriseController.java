@@ -2,7 +2,6 @@ package itfact.entp.enterprise.controller;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import itfact.common.paging.service.PagingService;
 import itfact.common.response.dto.ResponseDTO;
@@ -11,10 +10,7 @@ import itfact.common.util.CommonConstant;
 import itfact.common.util.FileUtils;
 import itfact.common.util.ResponseUtil;
 import itfact.common.util.StringUtils;
-import itfact.entp.enterprise.dto.EnterpriseAtchDTO;
-import itfact.entp.enterprise.dto.EnterpriseCustDTO;
-import itfact.entp.enterprise.dto.EnterpriseDTO;
-import itfact.entp.enterprise.dto.EnterpriseSvcDTO;
+import itfact.entp.enterprise.dto.*;
 import itfact.entp.enterprise.service.EnterpriseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -76,9 +72,6 @@ public class EnterpriseController {
         List<EnterpriseCustDTO> enterpriseCustDTOList = enterpriseService.getEnterpriseCustListInfo(entp_unq);
         enterpriseDtlMap.put("enterpriseCustData", enterpriseCustDTOList);
 
-        List<EnterpriseSvcDTO> enterpriseSvcDTOList = enterpriseService.getEnterpriseSvcListInfo(entp_unq);
-        enterpriseDtlMap.put("enterpriseSvcData", enterpriseSvcDTOList);
-
         List<EnterpriseAtchDTO> enterpriseAtchDTOList = enterpriseService.getEnterpriseAtchList(enterpriseAtchDTO);
         enterpriseDtlMap.put("enterpriseAtchData", enterpriseAtchDTOList);
 
@@ -105,7 +98,7 @@ public class EnterpriseController {
     }
 
     @PostMapping("/setEnterpriseInfo")
-    public ResponseDTO setEnterpriseInfo(@RequestParam(value="enterpriseData") String enterpriseData, @RequestParam(value="custData") String custData, @RequestParam(value="files", required = false) List<MultipartFile> files, @RequestParam(value = "systemData") String systemData) throws JsonProcessingException {
+    public ResponseDTO setEnterpriseInfo(@RequestParam(value="enterpriseData") String enterpriseData, @RequestParam(value="custData") String custData, @RequestParam(value="files", required = false) List<MultipartFile> files) throws JsonProcessingException {
 
         if (!FileUtils.isPermisionFileMimeType(files)) {
             return ResponseUtil.ERROR(ResponseCode.FILE_PERMISION_FILE_MIME_TYPE);
@@ -120,9 +113,7 @@ public class EnterpriseController {
 
         EnterpriseCustDTO enterpriseCustDTO = objectMapper.readValue(custData, EnterpriseCustDTO.class);
 
-        List<EnterpriseSvcDTO> enterpriseSvcDTOList = objectMapper.readValue(systemData, new TypeReference<List<EnterpriseSvcDTO>>() {});
-
-        boolean result = enterpriseService.setEnterpriseInfo(enterpriseDTO, enterpriseCustDTO, files, enterpriseSvcDTOList);
+        boolean result = enterpriseService.setEnterpriseInfo(enterpriseDTO, enterpriseCustDTO, files);
 
         if (result) {
             if (StringUtils.equals(enterpriseDTO.getFlag(), "I") || StringUtils.equals(enterpriseDTO.getFlag(), "S")) {
@@ -140,16 +131,51 @@ public class EnterpriseController {
     }
 
     @PostMapping("/setCustInfo")
-    public ResponseDTO insertCustInfo(@RequestBody EnterpriseCustDTO enterpriseCustDTO) {
+    public ResponseDTO setCustInfo(@RequestBody List<EnterpriseCustDTO> enterpriseCustDTOList) {
+        EnterpriseCustDTO enterpriseCustDTO = enterpriseCustDTOList.get(0);
 
         if (StringUtils.isEmpty(enterpriseCustDTO.getFlag())){
             return ResponseUtil.SUCCESS(ResponseCode.INVALID_INPUT_VALUE);
         }
 
-        boolean result = enterpriseService.insertEnterpriseCustInfo(enterpriseCustDTO);
+        boolean result = enterpriseService.setEnterpriseCustInfo(enterpriseCustDTOList);
+
+        if (result) {
+            if (StringUtils.equals(enterpriseCustDTO.getFlag(), "I") || StringUtils.equals(enterpriseCustDTO.getFlag(), "S")) {
+                return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE);
+
+            } else if (StringUtils.equals(enterpriseCustDTO.getFlag(), "U")) {
+                return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_UPDATE);
+
+            } else if (StringUtils.equals(enterpriseCustDTO.getFlag(), "D")) {
+                return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
+            }
+        }
 
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE);
     }
+//    @PostMapping("/setCustInfo")
+//    public ResponseDTO setCustInfo(@RequestBody EnterpriseCustDTO enterpriseCustDTO) {
+//
+//        if (StringUtils.isEmpty(enterpriseCustDTO.getFlag())){
+//            return ResponseUtil.SUCCESS(ResponseCode.INVALID_INPUT_VALUE);
+//        }
+//
+//        boolean result = enterpriseService.setEnterpriseCustInfo(enterpriseCustDTO);
+//
+//        if (result) {
+//            if (StringUtils.equals(enterpriseCustDTO.getFlag(), "I") || StringUtils.equals(enterpriseCustDTO.getFlag(), "S")) {
+//                return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE);
+//
+//            } else if (StringUtils.equals(enterpriseCustDTO.getFlag(), "U")) {
+//                return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_UPDATE);
+//
+//            } else if (StringUtils.equals(enterpriseCustDTO.getFlag(), "D")) {
+//                return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
+//            }
+//        }
+//        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE);
+//    }
 
     @PostMapping("/atch/{atchFileUnq}")
     public ResponseEntity<Resource> downloadAttach(@PathVariable("atchFileUnq") int atchFileUnq) throws MalformedURLException {
@@ -188,10 +214,50 @@ public class EnterpriseController {
 
         return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
     }
+    @PostMapping("/insertSysServerInfo")
+    public ResponseDTO insertSystemInfo(@RequestBody EnterpriseSvrDTO reqDTO) {
 
-    @PostMapping("/insertSystemInfo")
-    public ResponseDTO insertSystemInfo(@RequestBody EnterpriseSvcDTO enterpriseSvcDTO) {
-        boolean result =
+        int svr_unq = enterpriseService.insertSysServerInfo(reqDTO);
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE, svr_unq);
+    }
+
+    @PostMapping("/insertDiskInfo")
+    public ResponseDTO insertDiskInfo(@RequestBody EnterpriseSvrDiskDTO reqDTO) {
+
+        int disk_partition_unq = enterpriseService.insertDiskInfo(reqDTO);
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE, disk_partition_unq);
+    }
+
+    @PostMapping("getSystemInfoList")
+    public ResponseDTO getSystemInfoList(@RequestParam String entp_unq) {
+        List<EnterpriseSvrDTO> enterpriseSvrDTOList = enterpriseService.getEnterpriseSvcListInfo(entp_unq);
+        List<EnterpriseSvrDiskDTO> enterpriseSvrDiskDTOList = enterpriseService.getDiskListInfo(entp_unq);
+
+        HashMap<String, Object> entpSvrMap = new HashMap<>();
+        entpSvrMap.put("enterpriseSvrDTOList", enterpriseSvrDTOList);
+        entpSvrMap.put("enterpriseSvrDiskDTOList", enterpriseSvrDiskDTOList);
+
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SEARCH, entpSvrMap);
+    }
+
+    @PostMapping("/delSysServer")
+    public ResponseDTO delSysServer(@RequestBody EnterpriseSvrDTO enterpriseSvrDTO) {
+        boolean result = enterpriseService.deleteSvrInfo(enterpriseSvrDTO);
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
+    }
+
+    @PostMapping("/delDiskInfo")
+    public ResponseDTO delDiskInfo(@RequestParam List<Integer> diskUnqList) {
+        boolean result = enterpriseService.deleteDiskInfo(diskUnqList);
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_DELETE);
+    }
+
+    @PostMapping("/setSysServerInfo")
+    public ResponseDTO setSysServerInfo(@RequestBody EnterpriseSvrDTO enterpriseSvrDTO) {
+        boolean result = enterpriseService.saveSvrInfo(enterpriseSvrDTO);
+        return ResponseUtil.SUCCESS(ResponseCode.SUCCESS_SAVE);
     }
 
 }

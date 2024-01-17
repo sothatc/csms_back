@@ -3,7 +3,7 @@
 
 <mapper namespace="EnterpriseDAO">
 
-    <select id="selectEnterpriseList" resultType="EnterpriseDTO" parameterType="EnterpriseDTO">
+    <select id="getEnterpriseList" resultType="EnterpriseDTO" parameterType="EnterpriseDTO">
         SELECT SQL_CALC_FOUND_ROWS
           E.ENTP_UNQ
         , E.SOLUTION_TP
@@ -32,6 +32,7 @@
         <if test="solution_tp != null and solution_tp != ''">
             AND E.SOLUTION_TP = #{solution_tp}
         </if>
+        ORDER BY E.ENTP_NM ASC
 
         <include refid="common.paging"/>
     </select>
@@ -62,13 +63,22 @@
           AND DEL_YN = 'N'
     </select>
 
-    <select id="getEnterpriseSvcListInfo" resultType="EnterpriseSvcDTO" parameterType="EnterpriseDTO">
+    <select id="getEnterpriseSvcListInfo" resultType="EnterpriseSvrDTO" parameterType="EnterpriseSvrDTO">
         SELECT
             *
         FROM
             STT_ENTP_SVR_LST
         WHERE 1=1
           AND ENTP_UNQ = #{entp_unq}
+    </select>
+
+    <select id="getDiskListInfo" resultType="EnterpriseSvrDiskDTO" parameterType="EnterpriseSvrDTO">
+        SELECT
+            *
+        FROM
+            STT_SVR_DISK_LST
+        WHERE 1=1
+            AND ENTP_UNQ = #{entp_unq}
     </select>
 
     <select id="getEnterpriseAtchList" resultType="EnterpriseAtchDTO">
@@ -97,7 +107,6 @@
           AND DEL_YN = 'N'
     </select>
 
-<!--    <insert id="insertEnterpriseInfo" parameterType="EnterpriseDTO" useGeneratedKeys="true" keyProperty="entp_unq">-->
     <insert id="insertEnterpriseInfo" parameterType="EnterpriseDTO">
         INSERT INTO STT_ENTP_LST(
             ENTP_UNQ,
@@ -193,7 +202,7 @@
                )
     </insert>
 
-    <insert id="insertEnterpriseSvcInfo" parameterType="EnterpriseSvcDTO">
+    <insert id="insertSystemInfo" parameterType="EnterpriseSvrDTO" useGeneratedKeys="true" keyProperty="svr_unq">
         INSERT INTO STT_ENTP_SVR_LST(
             ENTP_UNQ,
             SVR_HST,
@@ -208,8 +217,6 @@
             TOTAL_MEM_SZ,
             USED_MEM_SZ,
             GPU_MODEL,
-            TOTAL_DISK_SZ,
-            USED_DISK_SZ,
             BASE_PATH,
             LOG_PATH,
             GNR_MEMO,
@@ -230,8 +237,6 @@
             #{total_mem_sz},
             #{used_mem_sz},
             #{gpu_model},
-            #{total_disk_sz},
-            #{used_disk_sz},
             #{base_path},
             #{log_path},
             #{gnr_memo},
@@ -240,17 +245,43 @@
             )
     </insert>
 
+    <insert id="insertDiskInfo" parameterType="EnterpriseSvrDiskDTO" useGeneratedKeys="true" keyProperty="disk_partition_unq">
+        INSERT INTO STT_SVR_DISK_LST (
+              PARTITION_PATH
+             ,ENTP_UNQ
+             ,SVR_UNQ
+             ,USED_DISK_SZ
+             ,TOTAL_DISK_SZ
+        ) VALUES (
+              #{partition_path}
+             ,#{entp_unq}
+             ,#{svr_unq}
+             ,#{used_disk_sz}
+             ,#{total_disk_sz}
+        )
+    </insert>
+
+    <update id="saveDiskInfo" parameterType="EnterpriseSvrDiskDTO">
+        UPDATE STT_SVR_DISK_LST
+        SET
+             PARTITION_PATH = #{partition_path}
+            ,USED_DISK_SZ   = #{used_disk_sz}
+            ,TOTAL_DISK_SZ  = #{total_disk_sz}
+        WHERE
+            DISK_PARTITION_UNQ = #{disk_partition_unq}
+    </update>
+
     <update id="updateEnterpriseinfo" parameterType="EnterpriseDTO">
         UPDATE STT_ENTP_LST
         SET
-            ENTP_TP       = #{entp_tp}
-          ,ENTP_NM       = #{entp_nm}
-          ,SVC_TP        = #{svc_tp}
-          ,STT_MONTH_CNT = #{stt_month_cnt}
-          ,STT_DAY_CNT   = #{stt_day_cnt}
-          ,GNR_MEMO      = #{gnr_memo}
-          ,CHG_USR_ID    = #{chg_usr_id}
-          ,CHG_DTM       = now()
+             ENTP_TP       = #{entp_tp}
+            ,ENTP_NM       = #{entp_nm}
+            ,SVC_TP        = #{svc_tp}
+            ,STT_MONTH_CNT = #{stt_month_cnt}
+            ,STT_DAY_CNT   = #{stt_day_cnt}
+            ,GNR_MEMO      = #{gnr_memo}
+            ,CHG_USR_ID    = #{chg_usr_id}
+            ,CHG_DTM       = now()
         WHERE
             ENTP_UNQ = #{entp_unq}
     </update>
@@ -258,13 +289,14 @@
     <update id="updateCustInfo" parameterType="EnterpriseCustDTO">
         UPDATE STT_CUST_LST
         SET
-            MEMB_DEPT_NM = #{memb_dept_nm}
-          ,MEMB_NM      = #{memb_nm}
-          ,MEMB_PST_NM  = #{memb_pst_nm}
-          ,MEMB_TEL     = #{memb_tel}
-          ,MEMB_EMAIL   = #{memb_email}
-          ,CHG_USR_ID   = #{chg_usr_id}
-          ,CHG_DTM      = now()
+             MEMB_DEPT_NM = #{memb_dept_nm}
+            ,MEMB_NM      = #{memb_nm}
+            ,MEMB_PST_NM  = #{memb_pst_nm}
+            ,MEMB_TEL     = #{memb_tel}
+            ,MEMB_EMAIL   = #{memb_email}
+            ,PRINCIPAL_TP = #{principal_tp}
+            ,CHG_USR_ID   = #{chg_usr_id}
+            ,CHG_DTM      = now()
         WHERE
             CUST_UNQ = #{cust_unq}
     </update>
@@ -280,7 +312,7 @@
 
     </update>
 
-    <update id="updateSvcInfo" parameterType="EnterpriseSvcDTO">
+    <update id="updateSvrInfo" parameterType="EnterpriseSvrDTO">
         UPDATE STT_ENTP_SVR_LST
         SET
             SVR_HST       = #{svr_hst}
@@ -295,15 +327,12 @@
           ,TOTAL_MEM_SZ  = #{total_mem_sz}
           ,USED_MEM_SZ   = #{used_mem_sz}
           ,GPU_MODEL     = #{gpu_model}
-          ,TOTAL_DISK_SZ = #{total_disk_sz}
-          ,USED_DISK_SZ  = #{used_disk_sz}
           ,BASE_PATH     = #{base_path}
           ,LOG_PATH      = #{log_path}
           ,GNR_MEMO      = #{gnr_memo}
           ,CHG_USR_ID    = #{chg_usr_id}
           ,CHG_DTM       = now()
-        WHERE
-            ENTP_UNQ = #{entp_unq}
+        WHERE 1=1
           AND SVR_UNQ  = #{svr_unq}
     </update>
 
@@ -334,5 +363,17 @@
         WHERE
             E.ENTP_UNQ = #{entp_unq}
     </update>
+
+    <delete id="deleteSvrInfo" parameterType="EnterpriseSvrDTO">
+        DELETE FROM STT_ENTP_SVR_LST
+        WHERE
+            SVR_UNQ = #{svr_unq}
+    </delete>
+
+    <delete id="deleteDiskInfo" parameterType="int">
+        DELETE FROM STT_SVR_DISK_LST
+        WHERE
+            DISK_PARTITION_UNQ = #{disk_partition_unq}
+    </delete>
 
 </mapper>

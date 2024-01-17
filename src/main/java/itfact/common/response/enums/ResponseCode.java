@@ -19,6 +19,7 @@ public enum ResponseCode {
     PASSWORD_MAX_ERR("-1", "비밀번호 입력 오류 5회 초과"),
     PASSWORD_INIT("-1", "비밀번호 변경 대상자"),
     PASSWORD_ERROR("-1", "비밀번호 오류입니다"),
+    PASSWORD_WRONG("-1", "비밀번호가 틀렸습니다."),
     FAIL_SENDMAIL("-1", "메일발송이 실패되었습니다."),
     SESSION_DUPLICATION("-1","중복로그인"),
     SESSION_END("-1","세션종료"),

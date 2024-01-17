@@ -37,4 +37,20 @@ public class ResponseUtil {
     public static <T> ResponseDTO<T> ERROR(String message) {
         return new ResponseDTO<>(ResponseStatus.ERROR, message,null, null);
     }
+
+    public static <T> ResponseDTO<T> FAIL(ResponseCode responseCode) {
+        return new ResponseDTO<>(ResponseStatus.FAIL, responseCode.getMessage(),responseCode.getCode(), null);
+    }
+
+    public static <T> ResponseDTO<T> FAIL(ResponseCode responseCode, T data) {
+        return new ResponseDTO<>(ResponseStatus.FAIL, responseCode.getMessage(),responseCode.getCode(), data);
+    }
+
+    public static <T> ResponseDTO<T> FAIL(String message, T data) {
+        return new ResponseDTO<>(ResponseStatus.FAIL, message,null, data);
+    }
+
+    public static <T> ResponseDTO<T> FAIL(String message) {
+        return new ResponseDTO<>(ResponseStatus.FAIL, message,null, null);
+    }
 }

@@ -3,9 +3,11 @@ package itfact.entp.enterprise.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EnterpriseSvcDTO {
+public class EnterpriseSvrDTO {
     private int    svr_unq;
     private String entp_unq;      // 업체 PK
     private String svr_hst;       // 서버 호스트
@@ -20,8 +22,6 @@ public class EnterpriseSvcDTO {
     private int    used_mem_sz;   // memory 용량
     private int    total_mem_sz;  // memory 용량
     private String gpu_model;     // gpu 모델
-    private int    used_disk_sz;  // disk 용량
-    private int    total_disk_sz; // disk 용량
     private String base_path;     // 기본 경로
     private String log_path;      // 로그 경로
     private String gnr_memo;      // 기타 메모
@@ -29,4 +29,6 @@ public class EnterpriseSvcDTO {
     private String reg_dtm;       // 등록 일시
     private String chg_usr_id;
     private String chg_dtm;
+
+    List<EnterpriseSvrDiskDTO> svrDiskDTOList;
 }

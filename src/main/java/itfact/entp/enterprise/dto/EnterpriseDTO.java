@@ -38,6 +38,9 @@ public class EnterpriseDTO {
     //flag : I 신규저장 , U 수정 , D 삭제 , S 조회수
     private String flag;
     private List<EnterpriseDTO> enterpriseAtchList;
+
+    private EnterpriseSvrDTO systemDataList;
+    private EnterpriseSvrDiskDTO diskDataList;
     private boolean atch_file_bool;
 
     private PagingDTO paging;

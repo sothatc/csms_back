@@ -1,9 +1,6 @@
 package itfact.entp.enterprise.dao;
 
-import itfact.entp.enterprise.dto.EnterpriseAtchDTO;
-import itfact.entp.enterprise.dto.EnterpriseCustDTO;
-import itfact.entp.enterprise.dto.EnterpriseDTO;
-import itfact.entp.enterprise.dto.EnterpriseSvcDTO;
+import itfact.entp.enterprise.dto.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,8 +15,8 @@ public class EnterpriseDAO {
         this.sqlSessionTemplate = sqlSessionTemplate;
     }
 
-    public List<EnterpriseDTO> selectEnterpriseList(EnterpriseDTO enterpriseDTO) {
-        return sqlSessionTemplate.selectList(NAMESPACE + "selectEnterpriseList", enterpriseDTO);
+    public List<EnterpriseDTO> getEnterpriseList(EnterpriseDTO enterpriseDTO) {
+        return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseList", enterpriseDTO);
     }
 
     public EnterpriseDTO selectEnterprise(String entp_unq) {
@@ -33,8 +30,18 @@ public class EnterpriseDAO {
         return sqlSessionTemplate.selectOne(NAMESPACE + "getEnterpriseCustOneInfo", custUnq);
     }
 
-    public List<EnterpriseSvcDTO> getEnterpriseSvcListInfo(String entpUnq) {
-        return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseSvcListInfo", entpUnq);
+//    public List<EnterpriseSvrDTO> getEnterpriseSvcListInfo(EnterpriseSvrDTO enterpriseSvrDTO) {
+//        return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseSvcListInfo", enterpriseSvrDTO);
+//    }
+    public List<EnterpriseSvrDTO> getEnterpriseSvcListInfo(String enterpriseSvrDTO) {
+        return sqlSessionTemplate.selectList(NAMESPACE + "getEnterpriseSvcListInfo", enterpriseSvrDTO);
+    }
+
+//    public List<EnterpriseSvrDiskDTO> getDiskListInfo(EnterpriseSvrDTO enterpriseSvrDTO) {
+//        return sqlSessionTemplate.selectList(NAMESPACE + "getDiskListInfo", enterpriseSvrDTO);
+//    }
+    public List<EnterpriseSvrDiskDTO> getDiskListInfo(String enterpriseSvrDTO) {
+        return sqlSessionTemplate.selectList(NAMESPACE + "getDiskListInfo", enterpriseSvrDTO);
     }
 
     public List<EnterpriseAtchDTO> getEnterpriseAtchList(EnterpriseAtchDTO enterpriseAtchDTO) {
@@ -54,8 +61,23 @@ public class EnterpriseDAO {
         return enterpriseAtchDTO.getAtch_file_unq();
     }
 
-    public void insertEnterpriseSvcInfo(EnterpriseSvcDTO enterpriseSvcDTO) {
-        sqlSessionTemplate.insert(NAMESPACE + "insertEnterpriseSvcInfo", enterpriseSvcDTO);
+//    public void insertEnterpriseSvcInfo(EnterpriseSvcDTO enterpriseSvcDTO) {
+//        sqlSessionTemplate.insert(NAMESPACE + "insertEnterpriseSvcInfo", enterpriseSvcDTO);
+//    }
+
+    public int insertSystemInfo(EnterpriseSvrDTO enterpriseSvrDTO) {
+        sqlSessionTemplate.insert(NAMESPACE + "insertSystemInfo", enterpriseSvrDTO);
+        return enterpriseSvrDTO.getSvr_unq();
+    }
+
+    public int insertDiskInfo(EnterpriseSvrDiskDTO enterpriseSvrDiskDTO) {
+        sqlSessionTemplate.insert(NAMESPACE + "insertDiskInfo", enterpriseSvrDiskDTO);
+//        return enterpriseSvrDiskDTO.getSvr_unq();
+        return enterpriseSvrDiskDTO.getDisk_partition_unq();
+    }
+
+    public void saveDiskInfo(EnterpriseSvrDiskDTO EnterpriseSvrDiskDTO) {
+        sqlSessionTemplate.insert(NAMESPACE + "saveDiskInfo", EnterpriseSvrDiskDTO);
     }
 
 
@@ -71,8 +93,8 @@ public class EnterpriseDAO {
         sqlSessionTemplate.update(NAMESPACE + "deleteEnterpriseAtchInfo", enterpriseAtchDTO);
     }
 
-    public void updateSvcInfo(EnterpriseSvcDTO enterpriseSvcDTO) {
-        sqlSessionTemplate.update(NAMESPACE + "updateSvcInfo", enterpriseSvcDTO);
+    public void updateSvrInfo(EnterpriseSvrDTO enterpriseSvrDTO) {
+        sqlSessionTemplate.update(NAMESPACE + "updateSvrInfo", enterpriseSvrDTO);
     }
 
     public void insertEnterpriseCustInfo(EnterpriseCustDTO enterpriseCustDTO) {
@@ -88,4 +110,11 @@ public class EnterpriseDAO {
     }
 
 
+    public void deleteSvrInfo(EnterpriseSvrDTO enterpriseSvrDTO) {
+        sqlSessionTemplate.delete(NAMESPACE + "deleteSvrInfo", enterpriseSvrDTO);
+    }
+
+    public void deleteDiskInfo(int enterpriseSvrDiskDTO) {
+        sqlSessionTemplate.delete(NAMESPACE + "deleteDiskInfo", enterpriseSvrDiskDTO);
+    }
 }
