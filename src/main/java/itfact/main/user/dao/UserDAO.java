@@ -1,10 +1,13 @@
 package itfact.main.user.dao;
 
 
+import itfact.main.user.dto.SearchUserDTO;
 import itfact.main.user.dto.UserDTO;
 import itfact.main.user.dto.UserTryLoginCntDTO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class UserDAO {
@@ -20,8 +23,8 @@ public class UserDAO {
         return sqlSessionTemplate.selectOne(NAMESPACE + "selectUserInfoCnt", userDTO);
     }
 
-    public UserDTO selectUserById(UserDTO userDTO) {
-        return sqlSessionTemplate.selectOne(NAMESPACE + "selectUserById", userDTO);
+    public UserDTO selectUserByIdAndPw(UserDTO userDTO) {
+        return sqlSessionTemplate.selectOne(NAMESPACE + "selectUserByIdAndPw", userDTO);
     }
 
     public int insertUserTryLoginCnt(UserTryLoginCntDTO userTryLoginCntDTO) {
@@ -39,5 +42,9 @@ public class UserDAO {
 
     public void insertUserInfo(UserDTO userDTO) {
         sqlSessionTemplate.insert(NAMESPACE + "insertUserInfo", userDTO);
+    }
+
+    public List<UserDTO> selectUserList(SearchUserDTO reqDTO) {
+        return sqlSessionTemplate.selectList(NAMESPACE + "selectUserList", reqDTO);
     }
 }

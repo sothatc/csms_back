@@ -2,12 +2,15 @@ package itfact.main.user.service;
 
 
 import itfact.main.user.dao.UserDAO;
+import itfact.main.user.dto.SearchUserDTO;
 import itfact.main.user.dto.UserDTO;
 import itfact.main.user.dto.UserTryLoginCntDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -22,8 +25,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getLogin(UserDTO userDTO) {
-        return userDAO.selectUserById(userDTO);
+    public UserDTO getLoginInfo(UserDTO userDTO) {
+        return userDAO.selectUserByIdAndPw(userDTO);
     }
 
     @Override
@@ -52,5 +55,11 @@ public class UserServiceImpl implements UserService {
         }
         return true;
     }
+
+    @Override
+    public List<UserDTO> getUserList(SearchUserDTO reqDTO) {
+        return userDAO.selectUserList(reqDTO);
+    }
+
 
 }

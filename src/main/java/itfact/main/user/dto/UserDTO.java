@@ -19,16 +19,19 @@ public class UserDTO {
     private String jnco_dt;     // 입사일
     private String retir_dt;    // 퇴사일
     private String conn_ip;   // 클라이언트 ip
-    private String lgn_tm;      // 로그인 시간
-    private String lgout_tm;    // 로그아웃 시간
     private String pwd_ini_yn_cd; // 비밀번호 초기화 여부 코드
     private String lgn_yn_cd;   // 로그인 여부 코드
+    private String auth_cd;
     private String memo;        // 기타 메모
     private String reg_id;
     private String reg_dtm;
     private String chg_id;
     private String chg_dtm;
-    private String session_token;// 로그인 토큰
+    private String token;// 로그인 토큰
+
+    private String log_in_dtm;   // 로그인 시간
+    private String log_out_dtm;  // 로그아웃 시간
+    private String ps_sta_cd;    // 로그아웃 처리 상태 코드
 
     private String flag;
 

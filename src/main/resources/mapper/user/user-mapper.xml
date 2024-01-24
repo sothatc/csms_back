@@ -109,6 +109,7 @@
             ,ORG_CD
             ,ORG_CH_CD
             ,MEMO
+            ,AUTH_CD
             ,REG_ID
             ,REG_DTM
         )
@@ -120,9 +121,44 @@
             ,#{org_cd}
             ,#{org_ch_cd}
             ,#{memo}
+            ,#{auth_cd}
             ,#{reg_id}
             ,now()
         )
     </insert>
+
+    <select id="selectUserList" parameterType="SearchUserDTO" resultType="UserDTO">
+        SELECT
+             SQL_CALC_FOUND_ROWS
+             USER_ID
+            ,USE_YN
+            ,USER_NM
+            ,CONN_IP
+            ,LGN_TM
+            ,LGOUT_TM
+            ,PWD_INI_YN_CD
+            ,LGN_YN_CD
+        FROM
+            TBL_USER
+        WHERE 1=1
+        <if test="use_yn != null and use_yn != ''">
+            AND USE_YN = #{use_yn}
+        </if>
+        <if test="user_id != null and user_id != ''">
+            AND USER_ID = #{user_id}
+        </if>
+        <if test="user_nm != null and user_nm != ''">
+            AND USER_NM = #{user_nm}
+        </if>
+        <if test="conn_ip != null and conn_ip != ''">
+            AND CONN_IP LIKE CONCAT('%', #{conn_ip}, '%')
+        </if>
+
+        ORDER BY LGN_TM DESC
+
+        <if test="paging != null and paging != ''">
+            <include refid="common.paging" />
+        </if>
+    </select>
 </mapper>
 
