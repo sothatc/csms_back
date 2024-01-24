@@ -1,7 +1,7 @@
 package itfact.common.dataSource.config;
 
 
-import itfact.entp.system.auth.service.SecurityService;
+import itfact.main.auth.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

@@ -1,7 +1,7 @@
 package itfact.common.dataSource.config;
 
 import itfact.common.util.JwtUtil;
-import itfact.entp.system.auth.service.SecurityService;
+import itfact.main.auth.service.SecurityService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

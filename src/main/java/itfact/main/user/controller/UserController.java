@@ -7,7 +7,7 @@ import itfact.common.response.enums.ResponseCode;
 import itfact.common.util.IPUtils;
 import itfact.common.util.ResponseUtil;
 import itfact.common.util.StringUtils;
-import itfact.entp.system.auth.service.SecurityService;
+import itfact.main.auth.service.SecurityService;
 import itfact.main.user.dto.SearchUserDTO;
 import itfact.main.user.dto.UserDTO;
 import itfact.main.user.dto.UserTryLoginCntDTO;
