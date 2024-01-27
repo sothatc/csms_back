@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
@@ -41,8 +42,8 @@ public class AES256 {
             if (StringUtils.isNotEmpty(text))
             {
                 Cipher cipher = Cipher.getInstance(alg);
-                SecretKeySpec keySpec = new SecretKeySpec(iv.getBytes(), algorithm);
-                cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+                SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), algorithm);
+                cipher.init(Cipher.ENCRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes()));
 
                 byte[] encrypted = cipher.doFinal(text.getBytes(charset));
                 return Base64.getEncoder().encodeToString(encrypted);
@@ -57,8 +58,8 @@ public class AES256 {
         if(StringUtils.isNotEmpty(cipherText))
         {
             Cipher cipher = Cipher.getInstance(alg);
-            SecretKeySpec keySpec = new SecretKeySpec(iv.getBytes(), algorithm);
-            cipher.init(Cipher.DECRYPT_MODE, keySpec);
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), algorithm);
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes()));
 
             byte[] decodedBytes = Base64.getDecoder().decode(cipherText);
             byte[] decrypted = cipher.doFinal(decodedBytes);

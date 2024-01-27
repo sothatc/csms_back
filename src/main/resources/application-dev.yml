@@ -33,11 +33,17 @@ spring:
       max-file-size: 10MB
 
 aes256:
-  key: 0707405170060121784
+  #ToDo: aes key 따로 생성하고 저장할 것. ()
+  key: abcdefghabcdefghabcdefghabcdefgh
   cipher: AES/CBC/PKCS5Padding
   algorithm: AES
   encoding:
     charset: UTF-8
+
+jwt:
+  #openssl rand -hex 32
+  secretKey: 393130c588ac7852ffaa2e6df270da6bb19852d9d848129e928866a568c7c867
+
 logging:
   level:
     com.zaxxer.hikari.HikariConfig: DEBUG

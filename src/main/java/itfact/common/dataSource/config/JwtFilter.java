@@ -1,7 +1,7 @@
 package itfact.common.dataSource.config;
 
 import itfact.common.util.JwtUtil;
-import itfact.main.auth.service.SecurityService;
+import itfact.entp.system.auth.service.SecurityService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,14 +25,10 @@ public class JwtFilter extends OncePerRequestFilter {
     private final SecurityService securityService;
     private final String secretKey;
 
-    //user_id를 Token에서 꺼내기
-    String user_id = "";
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        log.info("authorization: {}", authorization);
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
             log.error("authorization이 잘못되었습니다.");
@@ -50,6 +46,10 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
+        //Token에서 user_id 꺼내기
+        String userId = JwtUtil.getUserId(token, secretKey);
+        log.debug("userId: {}", userId);
+
         /** 권한 부여 */
         UsernamePasswordAuthenticationToken authenticationToken =
                 /**
@@ -60,11 +60,12 @@ public class JwtFilter extends OncePerRequestFilter {
                  *         // 블로그를 작성하는 로직
                  *     }
                  */
-                new UsernamePasswordAuthenticationToken(user_id, null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
+                new UsernamePasswordAuthenticationToken(userId, null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
 
         /** Detail을 넣어줌. */
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);
     }
+
 }

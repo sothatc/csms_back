@@ -8,7 +8,7 @@
         WHERE USER_ID = #{user_id}
     </select>
 
-    <select id="selectUserById" parameterType="UserDTO" resultType="UserDTO">
+    <select id="selectUserByIdAndPw" parameterType="UserDTO" resultType="UserDTO">
         SELECT
              USER_ID
             ,USER_PWD
@@ -20,9 +20,6 @@
             ,ORG_CH_CD
             ,JNCO_DT
             ,RETIR_DT
-            ,CONN_IP
-            ,LGN_TM
-            ,LGOUT_TM
             ,PWD_INI_YN_CD
             ,LGN_YN_CD
             ,MEMO
@@ -30,12 +27,11 @@
             ,REG_DTM
             ,CHG_ID
             ,CHG_DTM
-            ,SESSION_TOKEN
         FROM
             TBL_USER
         WHERE 1=1
             AND USER_ID  = #{user_id}
-            AND USER_PWD = #{user_pwd}
+            AND USER_PWD = #{user_pwd_crypto}
     </select>
 
     <insert id="insertUserTryLoginCnt" parameterType="UserTryLoginCntDTO">
@@ -52,12 +48,24 @@
         (
              USER_ID
             ,PWD_ERR_CNT
+            ,REG_USR_ID
+            ,REG_DTM
+            ,CHG_USR_ID
+            ,CHG_DTM
         )
         VALUES
         (
              #{user_id}
             ,#{pwd_err_cnt}
+            ,#{reg_usr_id}
+            ,#{reg_dtm}
+            ,#{chg_usr_id}
+            ,#{chg_dtm}
         )
+        ON DUPLICATE KEY UPDATE
+             PWD_ERR_CNT = #{pwd_err_cnt}
+            ,CHG_USR_ID  = #{chg_usr_id}
+            ,CHG_DTM     = #{chg_dtm}
     </insert>
 
     <insert id="insertLoginInfo" parameterType="UserDTO">
@@ -65,16 +73,18 @@
         (
              USER_ID
             ,CONN_IP
-            ,TOKEN
+            ,REFRESH_TOKEN
             ,LOG_IN_DTM
             ,LOG_OUT_DTM
+            ,PS_STA_CD
         )
         VALUES (
              #{user_id}
             ,#{conn_ip}
-            ,#{token}
+            ,#{refresh_token}
             ,now()
             ,#{log_out_dtm}
+            ,#{ps_sta_cd}
         )
     </insert>
 
@@ -90,14 +100,33 @@
             ,ORG_CH_CD
             ,JNCO_DT
             ,RETIR_DT
-            ,CONN_IP
-            ,LGN_T
-        FROM TBL_USER USER
-        LEFT OUTER JOIN TBL_LOGIN_HIST LGNH ON LGNH.USER_ID = USER.USER_ID
+        FROM TBL_USER
         WHERE 1=1
-            AND USER.USER_ID = #{user_id}
-            AND USER.USE_YN = 'Y'
+            AND USER_ID = #{user_id}
+            AND USE_YN  = 'Y'
     </select>
+
+<!--    <select id="selectLoginInfo" parameterType="UserDTO" resultType="UserDTO">-->
+<!--        SELECT-->
+<!--            USER.USER_ID-->
+<!--             ,USER.USER_PWD-->
+<!--             ,USER.USER_NM-->
+<!--             ,USER.USE_YN-->
+<!--             ,USER.CELL_TEL_NO-->
+<!--             ,USER.EMAIL-->
+<!--             ,USER.ORG_CD-->
+<!--             ,USER.ORG_CH_CD-->
+<!--             ,USER.JNCO_DT-->
+<!--             ,USER.RETIR_DT-->
+<!--             ,USER.CONN_IP-->
+<!--             ,USER.LOG_IN_DTM-->
+<!--             ,USER.LOG_OUT_DTM-->
+<!--        FROM TBL_USER USER-->
+<!--        LEFT OUTER JOIN TBL_LOGIN_HIST LGNH ON LGNH.USER_ID = USER.USER_ID-->
+<!--        WHERE 1=1-->
+<!--          AND USER.USER_ID = #{user_id}-->
+<!--          AND USER.USE_YN  = 'Y'-->
+<!--    </select>-->
 
     <insert id="insertUserInfo" parameterType="UserDTO">
         INSERT INTO TBL_USER
@@ -130,31 +159,31 @@
     <select id="selectUserList" parameterType="SearchUserDTO" resultType="UserDTO">
         SELECT
              SQL_CALC_FOUND_ROWS
-             USER_ID
-            ,USE_YN
-            ,USER_NM
+             USER.USER_ID
+            ,USER.USE_YN
+            ,USER.USER_NM
             ,CONN_IP
-            ,LGN_TM
-            ,LGOUT_TM
-            ,PWD_INI_YN_CD
-            ,LGN_YN_CD
+            ,USER.PWD_INI_YN_CD
+            ,USER.LGN_YN_CD
         FROM
-            TBL_USER
+            TBL_USER AS USER
+        LEFT JOIN
+            TBL_LOGIN_HIST AS LH ON USER.USER_ID = LH.USER_ID
         WHERE 1=1
         <if test="use_yn != null and use_yn != ''">
-            AND USE_YN = #{use_yn}
+            AND USER.USE_YN = #{use_yn}
         </if>
         <if test="user_id != null and user_id != ''">
-            AND USER_ID = #{user_id}
+            AND USER.USER_ID = #{user_id}
         </if>
         <if test="user_nm != null and user_nm != ''">
-            AND USER_NM = #{user_nm}
+            AND USER.USER_NM = #{user_nm}
         </if>
         <if test="conn_ip != null and conn_ip != ''">
-            AND CONN_IP LIKE CONCAT('%', #{conn_ip}, '%')
+            AND LH.CONN_IP LIKE CONCAT('%', #{conn_ip}, '%')
         </if>
 
-        ORDER BY LGN_TM DESC
+        ORDER BY LH.LOG_IN_DTM DESC
 
         <if test="paging != null and paging != ''">
             <include refid="common.paging" />

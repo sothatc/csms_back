@@ -27,7 +27,8 @@ public class UserDTO {
     private String reg_dtm;
     private String chg_id;
     private String chg_dtm;
-    private String token;// 로그인 토큰
+    private String access_token;
+    private String refresh_token;
 
     private String log_in_dtm;   // 로그인 시간
     private String log_out_dtm;  // 로그아웃 시간
