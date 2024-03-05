@@ -79,7 +79,6 @@ public class FileUtils {
 
         try {
             for (MultipartFile file : files) {
-                System.out.println("dd"+ file);
                 byte[] fileBytes = file.getBytes();
                 isPermisionFileMimeType = isPermisionFileMimeType(fileBytes);
                 if (!isPermisionFileMimeType) {
@@ -111,10 +110,8 @@ public class FileUtils {
         try {
 
             String mimeType = new Tika().detect(fileBytes);
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@" + mimeType);
             for (int i = 0; i < PERMISSION_FILE_MIME_TYPE.length; i++) {
                 if (PERMISSION_FILE_MIME_TYPE[i].equals(mimeType)) {
-                    System.out.println("#######################" + PERMISSION_FILE_MIME_TYPE[i]);
                     isPermisionFileMimeType = true;
                     break;
                 }
